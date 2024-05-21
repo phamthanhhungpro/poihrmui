@@ -3,5 +3,7 @@ export const environment = {
     production: true,
     apiUrl: apiUrl,
     idApiUrl: apiUrl + 'id/api/',
-    idApiUrlWithOutEndding: apiUrl + 'id'
+    idApiUrlWithOutEndding: apiUrl + 'id',
+    hrmApiUrl: apiUrl + 'hrm/api/',
+
 };

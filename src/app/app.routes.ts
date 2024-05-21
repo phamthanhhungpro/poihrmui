@@ -9,6 +9,7 @@ import { DonViComponent } from './modules/admin/settings/don-vi/don-vi.component
 import { ChiNhanhComponent } from './modules/admin/settings/chi-nhanh/chi-nhanh.component';
 import { PhongBanBoPhanComponent } from './modules/admin/settings/phong-ban-bo-phan/phong-ban-bo-phan.component';
 import { HosonhansuComponent } from './modules/admin/hosonhansu/hosonhansu.component';
+import { ThongtinchungComponent } from './modules/admin/hosonhansu/thongtinchung/thongtinchung.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -82,6 +83,8 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'admin', loadChildren: () => import('app/modules/admin/example/example.routes')},
             {path: 'ho-so-nhan-su', component: HosonhansuComponent},
+            { path: 'ho-so-nhan-su/thong-tin-chung/:id', component: ThongtinchungComponent }
+
         ]
     }
 ];

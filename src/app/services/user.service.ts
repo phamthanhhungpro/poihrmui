@@ -82,4 +82,8 @@ export class UserApiService {
   getListAdmin(): Observable<any[]> {
     return this.http.get<any[]>(`${baseUrl}/admin`);
   }
+
+  getUserToCreateHoSoNhanSu(): Observable<any[]> {
+    return this.http.get<any[]>(`${baseUrl}/create-hosonhansu`);
+  }
 }

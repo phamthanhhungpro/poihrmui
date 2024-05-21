@@ -31,8 +31,8 @@
             </div>
         </div>
         <!-- Actions -->
-        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4" *ngIf="isAllowCRUD()">
-            <button mat-flat-button [color]="'primary'" (click)="addUser()">
+        <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+            <button mat-flat-button [color]="'primary'" (click)="addData()">
                 <mat-icon class="icon-size-4" [svgIcon]="'mat_outline:add'"></mat-icon>
                 <span class="ml-2">Thêm mới</span>
             </button>
@@ -44,52 +44,58 @@
 
         <!-- CONTENT GOES HERE -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container *ngIf="(users$ | async) as data">
-                <ng-container *ngIf="data.users.length; else nousers">
-                    <ng-container *ngFor="let user of data.users; let i = index; trackBy: trackByFn">
+            <ng-container *ngIf="(data$ | async) as data">
+                <ng-container *ngIf="data.items.length; else nodata">
+                    <ng-container *ngFor="let item of data.items; let i = index; trackBy: trackByFn">
                         <a
                             class="z-10 flex items-center px-6 py-4 md:px-8 cursor-pointer border-b hover:bg-gray-100 dark:hover:bg-hover">
                             <div class="flex flex-0 items-center justify-center w-10 h-10 rounded-full overflow-hidden">
-                                <ng-container *ngIf="user.avatar">
-                                    <img class="object-cover w-full h-full" [src]="domain + user.avatar"
+                                <ng-container *ngIf="item.user.avatar">
+                                    <img class="object-cover w-full h-full" [src]="domain + item.user.avatar"
                                         alt="user avatar" />
                                 </ng-container>
-                                <ng-container *ngIf="!user.avatar && user.name">
+                                <ng-container *ngIf="!item.user.avatar && item.user.name">
                                     <div
                                         class="flex items-center justify-center w-full h-full rounded-full text-lg uppercase bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-200">
-                                        {{user.name.charAt(0)}}
+                                        {{item.user.name.charAt(0)}}
                                     </div>
                                 </ng-container>
                             </div>
-                            <div class="min-w-60 max-w-60 ml-4" (click)="editUser(user)">
-                                <div class="font-medium leading-5 truncate">{{user.fullName}}</div>
-                                <div class="leading-5 truncate text-secondary">{{user.email}}</div>
-                                <div class="leading-5 truncate text-secondary">{{'@' +user.userName}} - {{user.phone}}
+                            <div class="min-w-60 max-w-60 ml-4">
+                                <div class="font-medium leading-5 truncate">{{item.user.fullName}}</div>
+                                <div class="leading-5 truncate text-secondary">ID: {{item.maHoSo}}</div>
+                                <div class="leading-5 truncate text-secondary">User name: {{'@' +item.user.userName}}
                                 </div>
                             </div>
-                            <div class="min-w-80 max-w-80 ml-4 hidden lg:block">
-                                <div class="leading-5 truncate text-secondary text-warn-800">{{user.role}}</div>
-                                <div class="font-medium leading-5 truncate">{{user.tenantName}}</div>
+                            <div class="min-w-50 max-w-50 ml-4 hidden lg:block">
+                                <div class="leading-5 truncate text-secondary">Ngày sinh: {{item.NgaySinh}}</div>
+                                <div class="leading-5 truncate text-secondary">SĐT: {{item.user.phone}} </div>
+                                <div class="leading-5 truncate text-secondary">Email: {{item.user.email}} </div>
+                            </div>
+                            <div class="min-w-50 max-w-50 ml-4 hidden lg:block">
+                                <div class="leading-5 truncate text-secondary">Bộ phận: TBA</div>
+                                <div class="leading-5 truncate text-secondary">Chức danh:  TBA</div>
+                                <div class="leading-5 truncate text-secondary">Khu vực:  TBA</div>
                             </div>
                             <div class="min-w-20 max-w-20 ml-4 hidden sm:block">
-                                <div *ngIf="!user.isActive" class="leading-6 line-through font-medium text-red-500">Vô
+                                <div *ngIf="!item.user.isActive" class="leading-6 line-through font-medium text-red-500">Vô
                                     hiệu hóa</div>
-                                <div *ngIf="user.isActive" class="leading-6 font-medium text-green-500">Hoạt động</div>
+                                <div *ngIf="item.user.isActive" class="leading-6 font-medium text-green-500">Hoạt động</div>
                             </div>
                             <div class="flex-grow"></div>
                             <div class="min-w-0 max-w-80 ml-4">
-                                <button mat-icon-button (click)="editUser(user)">
+                                <button mat-icon-button (click)="gotoThongtinchung(item)" >
                                     <mat-icon class="icon-size-4" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                                 </button>
                                 <button mat-icon-button [matMenuTriggerFor]="menu">
                                     <mat-icon class="icon-size-4" [svgIcon]="'mat_solid:more_vert'"></mat-icon>
                                 </button>
                                 <mat-menu #menu="matMenu">
-                                    <button (click)="editUser(user)" mat-menu-item>
+                                    <button mat-menu-item (click)="gotoThongtinchung(item)">
                                         <mat-icon class="icon-size-4" [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
-                                        <span>Sửa thông tin</span>
+                                        <span>Thông tin chung</span>
                                     </button>
-                                    <button (click)="deleteUser(user)" mat-menu-item>
+                                    <button (click)="deleteData(item)" mat-menu-item>
                                         <mat-icon class="icon-size-4" [svgIcon]="'heroicons_solid:trash'"></mat-icon>
                                         <span>Xóa hồ sơ</span>
                                     </button>
@@ -106,9 +112,8 @@
                 </ng-container>
             </ng-container>
 
-            <ng-template #nousers>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">There are no
-                    users!</div>
+            <ng-template #nodata>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">Chưa tạo hồ sơ nhân sự</div>
             </ng-template>
 
         </div>
@@ -119,12 +124,8 @@
     [position]="'right'" [opened]="false" (openedChanged)="drawerOpenedChanged($event)" #addDrawer>
     <div class="flex flex-col w-full overflow-auto bg-card">
         <!-- New data -->
-        <ng-container *ngIf="drawerComponent === 'new-user'">
-            <app-new-user [drawer]="addDrawer" (onClosed)="getUsers()"></app-new-user>
-        </ng-container>
-        <!-- Edit data -->
-        <ng-container *ngIf="drawerComponent === 'edit-user'">
-            <app-edit-user [drawer]="addDrawer" [data]="selectedData" (onClosed)="getUsers()"></app-edit-user>
+        <ng-container *ngIf="drawerComponent === 'new-data'">
+            <app-create-hosonhansu [drawer]="addDrawer" (onClosed)="getData()"></app-create-hosonhansu>
         </ng-container>
     </div>
 </fuse-drawer>

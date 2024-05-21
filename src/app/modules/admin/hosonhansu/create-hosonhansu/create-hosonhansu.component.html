@@ -1,1 +1,54 @@
-<p>create-hosonhansu works!</p>
+<div class="flex flex-col flex-auto h-full overflow-hidden bg-card dark:bg-default">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-18 -mb-px px-6 bg-gray-50 dark:bg-transparent">
+
+        <div class="ml-2 text-2xl font-semibold">Tạo hồ sơ nhân sự</div>
+        <div class="flex items-center">
+            <!-- More menu -->
+            <button mat-flat-button [color]="'primary'" (click)="save()">
+                Lưu
+            </button>
+            <button class="px-6 ml-3" mat-button (click)="cancelEdit()">
+                Hủy
+            </button>
+        </div>
+
+    </div>
+    <mat-divider class="mb-4"></mat-divider>
+    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start overflow-y-auto p-6 h-180 min-h-180 max-h-180"
+        cdkScrollable>
+        <form [formGroup]="addDataForm">
+            <div class="flex">
+                <mat-form-field class="w-full">
+                    <mat-label>User name</mat-label>
+                    <input placeholder="Tìm kiếm..." #managerInput matInput [formControlName]="'searchUserName'" [matAutocomplete]="auto" />
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                        @for (option of filteredOptions | async; track option) {
+                        <mat-option [value]="option">{{option.fullName}}</mat-option>
+                        }
+                    </mat-autocomplete>
+
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Họ và tên</mat-label>
+                    <input matInput [placeholder]="'Họ và tên'" [formControlName]="'fullName'" readonly>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Điện thoại</mat-label>
+                    <input matInput [placeholder]="'Điện thoại'" [formControlName]="'phone'" readonly>
+                </mat-form-field>
+            </div>
+            <div class="flex">
+                <mat-form-field class="flex-auto">
+                    <mat-label>Email</mat-label>
+                    <input matInput [placeholder]="'Email'" [formControlName]="'email'" readonly>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>

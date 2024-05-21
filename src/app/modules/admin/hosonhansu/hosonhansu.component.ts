@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { AddManagerComponent } from '../user/add-manager/add-manager.component';
 import { EditUserComponent } from '../user/edit-user/edit-user.component';
@@ -22,6 +22,8 @@ import { isAllowCRUD, isOWnerRole, isSsaRole } from 'app/mock-api/common/user/ro
 import { UserApiService } from 'app/services/user.service';
 import { environment } from 'environments/environment';
 import { Subject, takeUntil, map } from 'rxjs';
+import { CreateHosonhansuComponent } from './create-hosonhansu/create-hosonhansu.component';
+import { HosonhansuService } from 'app/services/hosonhansu.service';
 
 @Component({
   selector: 'app-hosonhansu',
@@ -29,7 +31,7 @@ import { Subject, takeUntil, map } from 'rxjs';
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
     FuseDrawerComponent, MatDividerModule, MatSidenavModule, NewUserComponent,
-    EditUserComponent, MatPaginatorModule, AddManagerComponent, ResetPwdComponent],
+    EditUserComponent, MatPaginatorModule, AddManagerComponent, CreateHosonhansuComponent],
   templateUrl: './hosonhansu.component.html'
 })
 export class HosonhansuComponent {
@@ -37,9 +39,9 @@ export class HosonhansuComponent {
   @ViewChild('paginator') paginator: MatPaginator;
 
 
-  public users$;
+  public data$;
   domain = environment.idApiUrlWithOutEndding;
-  drawerComponent: 'new-user' | 'edit-user' | 'add-manager' | 'reset-pwd';
+  drawerComponent: 'new-data' | 'edit-data';
   configForm: UntypedFormGroup;
   selectedData: any;
   pageSize = 25; // Initial page size
@@ -60,11 +62,11 @@ export class HosonhansuComponent {
    */
   constructor(private _fuseConfirmationService: FuseConfirmationService,
     private _formBuilder: UntypedFormBuilder,
-    private _userService: UserApiService,
+    private _hosonhansuService: HosonhansuService,
     private _fuseMediaWatcherService: FuseMediaWatcherService,
     private _changeDetectorRef: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-
+    private router: Router
   ) {
   }
 
@@ -73,8 +75,8 @@ export class HosonhansuComponent {
 
     // Build the config form
     this.configForm = this._formBuilder.group({
-      title: 'Xóa thành viên',
-      message: 'Xóa thành viên này khỏi hệ thống? <span class="font-medium">Thao tác này không thể hoàn tác!</span>',
+      title: 'Xóa hồ sơ',
+      message: 'Xóa hồ sơ này khỏi hệ thống? <span class="font-medium">Thao tác này không thể hoàn tác!</span>',
       icon: this._formBuilder.group({
         show: true,
         name: 'heroicons_outline:exclamation-triangle',
@@ -111,8 +113,8 @@ export class HosonhansuComponent {
       });
   }
 
-  addUser() {
-    this.drawerComponent = 'new-user';
+  addData() {
+    this.drawerComponent = 'new-data';
     this.addDrawer.open();
   }
 
@@ -120,61 +122,28 @@ export class HosonhansuComponent {
     this.addDrawer.close();
   }
 
-  editUser(user: any) {
-    this.drawerComponent = 'edit-user';
-    this.selectedData = user;
 
-    this.addDrawer.open();
-  }
-
-  deleteUser(user: any) {
+  deleteData(user: any) {
     const dialogRef = this._fuseConfirmationService.open(this.configForm.value);
     // Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'confirmed') {
-        this._userService.delete(user.id).subscribe(() => {
+        this._hosonhansuService.delete(user.id).subscribe(() => {
           this.getData();
         });
       }
     });
   }
 
-  inActive(user) {
-    var isActive = !user.isActive;
-    this._userService.update(user.id, { isActive: isActive }).subscribe(
-      (res) => {
-        this.openSnackBar('Thao tác thành công', 'Đóng');
-        this.getData();
-      },
-      (error) => {
-        // Handle error if observable emits an error
-        console.error('Error:', error);
-        // You can also display an error message to the user if needed
-        this.openSnackBar('Có lỗi xảy ra khi thực hiện thao tác', 'Đóng');
-      }
-    );
-  }
-
-  addManager(user) {
-    this.drawerComponent = 'add-manager';
-    this.selectedData = user;
-
-    this.addDrawer.open();
-  }
   // get data from api
   getData() {
-    const query = {
-      pageNumber: this.pageNumber + 1,
-      pageSize: this.pageSize
-    };
-    this.users$ = this._userService.getListUser(query).pipe(
+    this.data$ = this._hosonhansuService.getAllNoPaging().pipe(
       map((data: any) => {
-        const users: any[] = data.items.map((user, index: number) => ({
-          ...user,
+        const items: any[] = data.map((item, index: number) => ({
+          ...item,
           stt: index + 1
         }));
-        this.totalItems = data.count;
-        return { users };
+        return { items };
       })
     );
   }
@@ -192,15 +161,12 @@ export class HosonhansuComponent {
     }
   }
 
-  isAllowCRUD() {
-    return isAllowCRUD(this.userInfo.role);
-  }
-
-  isAllowSetRole() {
-    return isOWnerRole(this.userInfo.role) || isSsaRole(this.userInfo.role);
-  }
   // snackbar
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, { duration: 2000 });
+  }
+
+  gotoThongtinchung(item) {
+    this.router.navigate(['/ho-so-nhan-su/thong-tin-chung', item.id]);
   }
 }

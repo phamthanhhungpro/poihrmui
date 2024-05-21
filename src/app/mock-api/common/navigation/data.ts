@@ -5,188 +5,93 @@ import { isAllowSetPermission } from '../user/roleHelper';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
-        id: 'id',
-        title: 'ID Management',
+        id: 'ho-so',
+        title: 'Quản lý nhân sự',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
             {
-                id: 'tenant',
-                title: 'Cơ quan',
+                id: 'ho-so-nhan-su',
+                title: 'Hồ sơ nhân sự',
                 type: 'basic',
-                icon: 'heroicons_outline:building-office-2',
-                link: '/tenant',
-                hidden(item) {
-                    // always hide this item if role is not SSA
-                    if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
-                        return true;
-                    }
-                    return false;
-                },
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/ho-so-nhan-su'
             },
             {
-                id: 'group',
-                title: 'Nhóm',
+                id: 'hop-dong-lao-dong',
+                title: 'Hợp đồng lao động',
                 type: 'basic',
-                icon: 'mat_outline:groups',
-                link: '/group',
-                hidden(item) {
-                    // always hide this item if role is not SSA
-                    if (localStorage.getItem('role') === Constants.ROLE_SSA) {
-                        return true;
-                    }
-                    return false;
-                },
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/hop-dong-lao-dong'
             },
             {
-                id: 'user',
-                title: 'Thành viên',
+                id: 'bang-luong-dinh-ky',
+                title: 'Bảng lương định kỳ',
                 type: 'basic',
-                icon: 'mat_outline:manage_accounts',
-                link: '/user'
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/bang-luong-dinh-ky'
             },
             {
-                id: 'app-ssa',
-                title: 'Quản lý ứng dụng',
+                id: 'cham-cong-diem-danh',
+                title: 'Chấm công, điểm danh',
                 type: 'basic',
-                icon: 'mat_outline:apps',
-                link: '/app-ssa',
-                hidden(item) {
-                    // always hide this item if role is not SSA
-                    if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
-                        return true;
-                    }
-                    return false;
-                },
-            },
-            {
-                id: 'app-admin',
-                title: 'Ứng dụng của tôi',
-                type: 'basic',
-                icon: 'mat_outline:apps',
-                link: '/app-admin',
-                hidden(item) {
-                    // always hide this item if role is SSA
-                    if (localStorage.getItem('role') === Constants.ROLE_SSA) {
-                        return true;
-                    }
-                    return false;
-                },
-            },
-            {
-                id: 'role',
-                title: 'Vai trò',
-                type: 'basic',
-                icon: 'heroicons_outline:newspaper',
-                link: '/role',
-                hidden(item) {
-                    // always hide this item if role is not SSA
-                    if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
-                        return true;
-                    }
-                    return false;
-                },
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/cham-cong-diem-danh'
             }
         ]
     },
     {
-        id: 'permission',
-        title: 'Phân quyền người dùng',
+        id: 'bao-cao',
+        title: 'Tổng hợp, báo cáo',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
             {
-                id: 'function',
-                title: 'Chức năng',
+                id: 'bao-cao-nhan-su',
+                title: 'Báo cáo nhân sự',
                 type: 'basic',
-                icon: 'mat_solid:functions',
-                link: '/function',
-                hidden(item) {
-                    // always hide this item if role is not SSA
-                    if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
-                        return true;
-                    }
-                    return false;
-                },
-            },
-            {
-                id: 'assign-permission',
-                title: 'Phân quyền chức năng',
-                type: 'basic',
-                icon: 'mat_solid:verified_user',
-                link: '/permission',
-                hidden(item) {
-                    if (!isAllowSetPermission(localStorage.getItem('role'))) {
-                        return true;
-                    }
-                    return false;
-                },
-            },
-
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/bao-cao-nhan-su'
+            }
         ]
     },
     {
-        id: 'categories',
-        title: 'Danh mục',
-        type: 'group',
-        icon: 'heroicons_outline:home',
-        children: [
-            {
-                id: 'dantoc',
-                title: 'Dân tộc',
-                type: 'basic',
-                link: '/categories/dan-toc',
-                hidden(item) {
-                    return false;
-                },
-            },
-            {
-                id: 'tongiao',
-                title: 'Tôn giáo',
-                type: 'basic',
-                link: '/categories/ton-giao',
-                hidden(item) {
-                    return false;
-                },
-            },
-
-        ]
-    },
-    {
-        id: 'settings',
+        id: 'cai-dat',
         title: 'Cài đặt',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
             {
-                id: 'don-vi',
-                title: 'Thông tin Cơ quan - Đơn vị',
+                id: 'thong-tin-co-quan-don-vi',
+                title: 'Thông tin cơ quan đơn vị',
                 type: 'basic',
-                link: '/settings/don-vi',
-                hidden(item) {
-                    return false;
-                },
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/thong-tin-co-quan-don-vi'
             },
             {
-                id: 'chi-nhanh',
-                title: 'Chi nhánh/Văn phòng',
+                id: 'khu-vuc-chuyen-mon',
+                title: 'Khu vực/Chuyên môn',
                 type: 'basic',
-                link: '/settings/chi-nhanh',
-                hidden(item) {
-                    return false;
-                },
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/khu-vuc-chuyen-mon'
             },
             {
-                id: 'phong-ban-bo-phan',
-                title: 'Phòng/Ban/Bộ phận',
+                id: 'phan-loai-nhan-su',
+                title: 'Phân loại nhân sự',
                 type: 'basic',
-                link: '/settings/phong-ban-bo-phan',
-                hidden(item) {
-                    return false;
-                },
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/phan-loai-nhan-su'
+            },
+            {
+                id: 'chuc-danh',
+                title: 'Chức danh',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/chuc-danh'
             },
         ]
-    }
+    },
+
 ];
 export const compactNavigation: FuseNavigationItem[] = [
     {
@@ -199,8 +104,8 @@ export const compactNavigation: FuseNavigationItem[] = [
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
     {
-        id: 'id',
-        title: 'ID Management',
+        id: 'ho-so',
+        title: 'Hồ sơ nhân sự',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
@@ -208,41 +113,21 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         ]
     },
     {
-        id: 'permission',
-        title: 'Phân quyền người dùng',
+        id: 'bao-cao',
+        title: 'Tổng hợp, báo cáo',
         type: 'group',
         icon: 'heroicons_outline:home',
-        hidden(item) {
-            if (!isAllowSetPermission(localStorage.getItem('role'))) {
-                return true;
-            }
-            return false;
-        },
         children: [
-
         ]
     },
     {
-        id: 'categories',
-        title: 'Danh mục',
-        type: 'group',
-        icon: 'heroicons_outline:home',
-        children: []
-    },
-    {
-        id: 'settings',
+        id: 'cai-dat',
         title: 'Cài đặt',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
-        ],
-        hidden(item) {
-            if (!isAllowSetPermission(localStorage.getItem('role'))) {
-                return true;
-            }
-            return false;
-        },
-    }
+        ]
+    },
 ];
 
 export const firstNavigation: FuseNavigationItem[] = [

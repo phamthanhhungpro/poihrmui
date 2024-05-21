@@ -8,6 +8,7 @@ import { DantocComponent } from './modules/admin/categories/dantoc/dantoc.compon
 import { DonViComponent } from './modules/admin/settings/don-vi/don-vi.component';
 import { ChiNhanhComponent } from './modules/admin/settings/chi-nhanh/chi-nhanh.component';
 import { PhongBanBoPhanComponent } from './modules/admin/settings/phong-ban-bo-phan/phong-ban-bo-phan.component';
+import { HosonhansuComponent } from './modules/admin/hosonhansu/hosonhansu.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -80,26 +81,7 @@ export const appRoutes: Route[] = [
         },
         children: [
             {path: 'admin', loadChildren: () => import('app/modules/admin/example/example.routes')},
-            {path: 'tenant', loadChildren: () => import('app/modules/admin/tenant/tenant.routes')},
-            {path: 'group', loadChildren: () => import('app/modules/admin/group/group.routes')},
-            {path: 'user', loadChildren: () => import('app/modules/admin/user/user.routes')},
-            {path: 'app-ssa', loadChildren: () => import('app/modules/admin/app/app.routes')},
-            {path: 'app-admin', loadChildren: () => import('app/modules/admin/app-admin/app.routes')},
-            {path: 'role', loadChildren: () => import('app/modules/admin/role/role.routes')},
-
-            {path: 'function', loadChildren: () => import('app/modules/admin/function/function.routes')},
-            {path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes')},
-
-            {path: 'my-profile', component: ProfileComponent},
-
-            {path: 'categories/dan-toc', component: DantocComponent},
-            {path: 'categories/ton-giao', component: DantocComponent},
-
-            {path: 'settings/don-vi', component: DonViComponent},
-            {path: 'settings/chi-nhanh', component: ChiNhanhComponent},
-            {path: 'settings/phong-ban-bo-phan', component: PhongBanBoPhanComponent},
-
-
+            {path: 'ho-so-nhan-su', component: HosonhansuComponent},
         ]
     }
 ];

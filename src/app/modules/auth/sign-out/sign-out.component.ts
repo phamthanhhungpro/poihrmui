@@ -2,6 +2,7 @@ import { I18nPluralPipe, NgIf } from '@angular/common';
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from 'app/core/auth/auth.service';
+import { environment } from 'environments/environment';
 import { finalize, Subject, takeUntil, takeWhile, tap, timer } from 'rxjs';
 
 @Component({
@@ -19,7 +20,8 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
         'other': '# seconds',
     };
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-
+    signInHrl = environment.signInUrl;
+    signInUrlWithRedirect = `${this.signInHrl}?redirectURL=${environment.hrmFeUrl}`;
     /**
      * Constructor
      */
@@ -47,7 +49,7 @@ export class AuthSignOutComponent implements OnInit, OnDestroy
             .pipe(
                 finalize(() =>
                 {
-                    this._router.navigate(['sign-in']);
+                    location.href = this.signInUrlWithRedirect;
                 }),
                 takeWhile(() => this.countdown > 0),
                 takeUntil(this._unsubscribeAll),

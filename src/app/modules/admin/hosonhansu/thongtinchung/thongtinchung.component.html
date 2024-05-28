@@ -104,11 +104,10 @@
     </div>
 </div>
 
-<fuse-drawer class="w-screen min-w-screen sm:w-200 sm:min-w-200 z-999"  fixed [mode]="'over'" [name]="'addDrawer'"
+<fuse-drawer class="w-screen min-w-screen z-999"  fixed [mode]="'over'" [name]="'addDrawer'"
     [position]="'right'" [opened]="false" (openedChanged)="drawerOpenedChanged($event)" #addDrawer>
     <div class="flex flex-col w-full overflow-auto bg-card">
-        <!-- New data -->
-        <ng-container *ngIf="drawerComponent === 'new-data'">
+        <ng-container *ngIf="drawerComponent === 'edit-data'">
             <app-edit-hosonhansu [drawer]="addDrawer" (onClosed)="getData()"></app-edit-hosonhansu>
         </ng-container>
     </div>

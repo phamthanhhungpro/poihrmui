@@ -43,7 +43,7 @@ export class ThongtinchungComponent {
   @Output() onClosed = new EventEmitter<any>();
   @Input() data: any = {};
   drawerComponent: 'new-data' | 'edit-data';
-
+  hosoModel;
   /**
    * Constructor
    */
@@ -75,6 +75,7 @@ export class ThongtinchungComponent {
    * On init
    */
   ngOnInit(): void {
+    console.log(this.data);
     this.getInfo();
 
   }
@@ -125,6 +126,7 @@ export class ThongtinchungComponent {
         this.accountForm.get('email').setValue(res.user.email);
         this.accountForm.get('phone').setValue(res.user.phone);
 
+        this.hosoModel = res;
       }
     )
     console.log('ID:', this.id);

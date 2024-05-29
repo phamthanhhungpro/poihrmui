@@ -14,6 +14,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import {CdkAccordionModule} from '@angular/cdk/accordion';
+import { HosonhansuService } from 'app/services/hosonhansu.service';
 
 @Component({
   selector: 'app-edit-hosonhansu',
@@ -26,9 +27,13 @@ import {CdkAccordionModule} from '@angular/cdk/accordion';
 export class EditHosonhansuComponent {
   employeeForm: UntypedFormGroup;
   @Input() drawer: MatDrawer;
+  @Input() data; // Id hosonhansu
+
   items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   expandedIndex = 0;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private _hosonhansuService: HosonhansuService
+  ) {
     this.employeeForm = this.fb.group({
       ngheNghiepKhiDuocTuyenDung: [''],
       ngayTuyenDung: [''],
@@ -72,13 +77,40 @@ export class EditHosonhansuComponent {
       dacDiemLichSuBanThan: [''],
       thamGiaToChucNuocNgoai: [''],
       thanNhanOngNuocNgoai: [''],
-      daoTao: this.fb.array([this.createDaoTaoGroup()]), // Array for multiple entries
-      quaTrinhCongTac: this.fb.array([this.createQuaTrinhCongTacGroup()]), // Array for multiple entries
-      quanHeGiaDinh: this.fb.array([this.createQuanHeGiaDinhGroup()]), // Array for multiple entries
-      dienBienLuong: this.fb.array([this.createDienBienLuongGroup()]) // Array for multiple entries
+      daoTaoBoDuongs: this.fb.array([]), // Array for multiple entries
+      quaTrinhCongTacs: this.fb.array([]), // Array for multiple entries
+      quanHeGiaDinhs: this.fb.array([]), // Array for multiple entries
+      luongCongChucs: this.fb.array([]) // Array for multiple entries
     });
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.data);
+    // Create the arrays before patching values
+    const daoTaoBoDuongs = this.employeeForm.get('daoTaoBoDuongs') as FormArray;
+    const quaTrinhCongTacs = this.employeeForm.get('quaTrinhCongTacs') as FormArray;
+    const quanHeGiaDinhs = this.employeeForm.get('quanHeGiaDinhs') as FormArray;
+    const luongCongChucs = this.employeeForm.get('luongCongChucs') as FormArray;
+
+    // Loop through the data and push new form groups to the arrays
+    this.data.thongTinThem.daoTaoBoDuongs.forEach((item) => {
+      daoTaoBoDuongs.push(this.createDaoTaoGroup());
+    });
+
+    this.data.thongTinThem.quaTrinhCongTacs.forEach((item) => {
+      quaTrinhCongTacs.push(this.createQuaTrinhCongTacGroup());
+    });
+
+    this.data.thongTinThem.quanHeGiaDinhs.forEach((item) => {
+      quanHeGiaDinhs.push(this.createQuanHeGiaDinhGroup());
+    });
+
+    this.data.thongTinThem.luongCongChucs.forEach((item) => {
+      luongCongChucs.push(this.createDienBienLuongGroup());
+    });
+
+    // Patch the values to the form
+    this.employeeForm.patchValue(this.data.thongTinThem);
+  }
 
   createDaoTaoGroup(): UntypedFormGroup {
     return this.fb.group({
@@ -114,40 +146,40 @@ export class EditHosonhansuComponent {
       thangNam: [''],
       maNgachBac: [''],
       heSoLuong: [''],
-      laHeSoHienTai: ['']
+      laHeSoHienTai: [false]
     });
   }
 
-  get daoTao(): FormArray {
-    return this.employeeForm.get('daoTao') as FormArray;
+  get daoTaoBoDuongs(): FormArray {
+    return this.employeeForm.get('daoTaoBoDuongs') as FormArray;
   }
 
-  get quaTrinhCongTac(): FormArray {
-    return this.employeeForm.get('quaTrinhCongTac') as FormArray;
+  get quaTrinhCongTacs(): FormArray {
+    return this.employeeForm.get('quaTrinhCongTacs') as FormArray;
   }
 
-  get quanHeGiaDinh(): FormArray {
-    return this.employeeForm.get('quanHeGiaDinh') as FormArray;
+  get quanHeGiaDinhs(): FormArray {
+    return this.employeeForm.get('quanHeGiaDinhs') as FormArray;
   }
 
-  get dienBienLuong(): FormArray {
-    return this.employeeForm.get('dienBienLuong') as FormArray;
+  get luongCongChucs(): FormArray {
+    return this.employeeForm.get('luongCongChucs') as FormArray;
   }
 
   addDaoTao(): void {
-    this.daoTao.push(this.createDaoTaoGroup());
+    this.daoTaoBoDuongs.push(this.createDaoTaoGroup());
   }
 
   addQuaTrinhCongTac(): void {
-    this.quaTrinhCongTac.push(this.createQuaTrinhCongTacGroup());
+    this.quaTrinhCongTacs.push(this.createQuaTrinhCongTacGroup());
   }
 
   addQuanHeGiaDinh(): void {
-    this.quanHeGiaDinh.push(this.createQuanHeGiaDinhGroup());
+    this.quanHeGiaDinhs.push(this.createQuanHeGiaDinhGroup());
   }
 
   addDienBienLuong(): void {
-    this.dienBienLuong.push(this.createDienBienLuongGroup());
+    this.luongCongChucs.push(this.createDienBienLuongGroup());
   }
   cancelEdit(): void {
     this.drawer.close();
@@ -155,5 +187,21 @@ export class EditHosonhansuComponent {
 
   save() {
     console.log(this.employeeForm.value);
+
+    var data = {
+      thongTinThem: this.employeeForm.value
+    };
+
+    this._hosonhansuService.update(this.data.id, data)
+      .subscribe(
+      response => {
+        // Handle success response
+        console.log('Update successful:', response);
+      },
+      error => {
+        // Handle error response
+        console.error('Update failed:', error);
+      }
+      );
   }
 }

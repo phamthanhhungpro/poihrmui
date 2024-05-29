@@ -303,8 +303,8 @@
                     [style.display]="accordionItem2.expanded ? 'block!important' : 'none!important'"
                     [attr.id]="'accordion-body-2'" [attr.aria-labelledby]="'accordion-header-2'">
                     <h3 class="text-lg font-semibold">27. Đào tạo, bồi dưỡng</h3>
-                    <div formArrayName="daoTao">
-                        <div *ngFor="let group of daoTao.controls; let i = index" [formGroupName]="i"
+                    <div formArrayName="daoTaoBoDuongs">
+                        <div *ngFor="let group of daoTaoBoDuongs.controls; let i = index" [formGroupName]="i"
                             class="grid sm:grid-cols-6 gap-4">
                             <div class="sm:col-span-1">
                                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
@@ -364,8 +364,8 @@
                     [style.display]="accordionItem3.expanded ? 'block!important' : 'none!important'"
                     [attr.id]="'accordion-body-3'" [attr.aria-labelledby]="'accordion-header-3'">
                     <h3 class="text-lg font-semibold">28. Tóm tắt Quá trình công tác</h3>
-                    <div formArrayName="quaTrinhCongTac">
-                        <div *ngFor="let group of quaTrinhCongTac.controls; let i = index" [formGroupName]="i"
+                    <div formArrayName="quaTrinhCongTacs">
+                        <div *ngFor="let group of quaTrinhCongTacs.controls; let i = index" [formGroupName]="i"
                             class="grid sm:grid-cols-3 gap-4">
                             <div class="sm:col-span-1">
                                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
@@ -407,8 +407,8 @@
                     [style.display]="accordionItem4.expanded ? 'block!important' : 'none!important'"
                     [attr.id]="'accordion-body-4'" [attr.aria-labelledby]="'accordion-header-4'">
                     <h3 class="text-lg font-semibold">30. Quan Hệ GIA Đình</h3>
-                    <div formArrayName="quanHeGiaDinh">
-                        <div *ngFor="let group of quanHeGiaDinh.controls; let i = index" [formGroupName]="i"
+                    <div formArrayName="quanHeGiaDinhs">
+                        <div *ngFor="let group of quanHeGiaDinhs.controls; let i = index" [formGroupName]="i"
                             class="grid sm:grid-cols-5 gap-4">
                             <div class="sm:col-span-1">
                                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">
@@ -462,8 +462,8 @@
                     [style.display]="accordionItem5.expanded ? 'block!important' : 'none!important'"
                     [attr.id]="'accordion-body-5'" [attr.aria-labelledby]="'accordion-header-5'">
                     <h3 class="text-lg font-semibold">31. Diễn biến quá trình lương</h3>
-                    <div formArrayName="dienBienLuong">
-                        <div *ngFor="let group of dienBienLuong.controls; let i = index" [formGroupName]="i"
+                    <div formArrayName="luongCongChucs">
+                        <div *ngFor="let group of luongCongChucs.controls; let i = index" [formGroupName]="i"
                             class="grid sm:grid-cols-4 gap-4">
                             <div class="sm:col-span-1">
                                 <mat-form-field class="w-full" [subscriptSizing]="'dynamic'">

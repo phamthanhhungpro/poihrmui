@@ -11,18 +11,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Constants } from 'app/mock-api/common/constants';
-import { AppService } from 'app/services/app.service';
 import { UserApiService } from 'app/services/user.service';
 import { startWith, map } from 'rxjs';
 import { HosonhansuService } from 'app/services/hosonhansu.service';
+import {MatStepperModule} from '@angular/material/stepper';
+import { SearchableSelectComponent } from 'app/common/components/select-search/searchable-select.component';
+import { VaiTroService } from 'app/services/vaitro.service';
 
 @Component({
   selector: 'app-create-hosonhansu',
   standalone: true,
   imports: [CommonModule, MatDividerModule, MatButtonModule, MatIconModule, NgIf, NgFor, MatDividerModule,
     FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatListModule, MatAutocompleteModule,
-    MatChipsModule],
+    MatChipsModule, MatStepperModule, SearchableSelectComponent],
   templateUrl: './create-hosonhansu.component.html'
 })
 export class CreateHosonhansuComponent {
@@ -36,7 +37,9 @@ export class CreateHosonhansuComponent {
   selectedUser: any = {};
   filteredOptions: any;
   allManagers: any;
-
+  thongtinchungForm: UntypedFormGroup;
+  phongbanForm: UntypedFormGroup;
+  options;
   /**
    *
    */
@@ -44,16 +47,36 @@ export class CreateHosonhansuComponent {
     private _userService: UserApiService,
     private _snackBar: MatSnackBar,
     private _hosonhansu: HosonhansuService,
-    private _changeDetectorRef: ChangeDetectorRef,) {
+    private _changeDetectorRef: ChangeDetectorRef,
+    private _vaitroService: VaiTroService,) {
     this.addDataForm = this._formBuilder.group({
       fullName: [''],
       searchUserName: [''],
       phone: [''],
       email: ['']
     });
+
+    this.thongtinchungForm = this._formBuilder.group({
+      tenKhac: [''],
+      ngaySinh: [''],
+      noiSinh: [''],
+      queQuan: [''],
+      danToc: [''],
+      tonGiao: [''],
+      thuongTru: [''],
+      noiO: [''],
+    });
+
+    this.phongbanForm = this._formBuilder.group({
+      vaiTro: [''],
+      vanPhong: [''],
+      phongBan: [''],
+      viTriCongViec: [''],
+    });
   }
   ngOnInit() {
     this.getListCanBeManager();
+    this.getListVaiTro();
   }
 
   save() {
@@ -117,4 +140,16 @@ export class CreateHosonhansuComponent {
       || item.userName.toLowerCase().includes(filterValue)));
   }
 
+  getListVaiTro() {
+    this._vaitroService.getAllNoPaging().pipe(
+      map(data => data.map(item => ({ key: item.id, value: item.tenVaiTro })))
+    ).subscribe(data => {
+      this.options = data;
+      // this._changeDetectorRef.detectChanges();
+    });
+  }
+
+  setVaiTro(value)  {
+    this.phongbanForm.get('vaiTro')!.setValue(value);
+  }
 }

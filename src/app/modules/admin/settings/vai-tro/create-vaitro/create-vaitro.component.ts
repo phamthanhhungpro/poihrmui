@@ -9,45 +9,41 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CoquandonviService } from 'app/services/coquandonvi.service';
-import { ChiNhanhService } from 'app/services/chinhanh.service';
+import { VaiTroService } from 'app/services/vaitro.service';
 
 @Component({
-  selector: 'app-edit-chinhanh',
+  selector: 'app-create-vaitro',
   standalone: true,
   imports: [MatButtonModule, MatIconModule, NgIf, NgFor, MatDividerModule,
     FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule,
   ],
-    templateUrl: './edit-chinhanh.component.html'
+  templateUrl: './create-vaitro.component.html'
 })
-export class EditChinhanhComponent {
+export class CreateVaitroComponent {
   @Input() drawer: MatDrawer;
   @Output() onClosed = new EventEmitter<any>();
-  @Input() data: any = {};
-  editDataForm: UntypedFormGroup;
+
+  addDataForm: UntypedFormGroup;
 
   /**
    *
    */
   constructor(private _formBuilder: UntypedFormBuilder,
-    private _chinhanhvanphongService: ChiNhanhService,
+    private _vaitroService: VaiTroService,
     private _snackBar: MatSnackBar,
   ) {
-    this.editDataForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      address: [''],
-      email: [''],
-      phone: [''],
-      description: ['']
+    this.addDataForm = this._formBuilder.group({
+      tenVaiTro: ['', Validators.required],
+      moTa: ['']
     });
   }
 
   ngOnInit(): void {
-    this.editDataForm.patchValue(this.data);
   }
 
   // clear form when close drawer
   clearForm(): void {
-    this.editDataForm.reset();
+    this.addDataForm.reset();
   }
 
   // close drawer and reset form
@@ -58,7 +54,7 @@ export class EditChinhanhComponent {
 
   // save data
   save(): void {
-    this._chinhanhvanphongService.update(this.data.id, this.editDataForm.value).subscribe(res => {
+    this._vaitroService.create(this.addDataForm.value).subscribe(res => {
       if (res.isSucceeded) {
         this.openSnackBar('Thao tác thành công', 'Đóng');
         this.onClosed.emit();

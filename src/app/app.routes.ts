@@ -5,11 +5,9 @@ import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { ProfileComponent } from './modules/admin/profile/profile.component';
 import { DantocComponent } from './modules/admin/categories/dantoc/dantoc.component';
-import { DonViComponent } from './modules/admin/settings/don-vi/don-vi.component';
-import { ChiNhanhComponent } from './modules/admin/settings/chi-nhanh/chi-nhanh.component';
-import { PhongBanBoPhanComponent } from './modules/admin/settings/phong-ban-bo-phan/phong-ban-bo-phan.component';
 import { HosonhansuComponent } from './modules/admin/hosonhansu/hosonhansu.component';
 import { ThongtinchungComponent } from './modules/admin/hosonhansu/thongtinchung/thongtinchung.component';
+import { VaiTroComponent } from './modules/admin/settings/vai-tro/vai-tro.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -83,8 +81,9 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'admin', loadChildren: () => import('app/modules/admin/example/example.routes')},
             {path: 'ho-so-nhan-su', component: HosonhansuComponent},
-            { path: 'ho-so-nhan-su/thong-tin-chung/:id', component: ThongtinchungComponent }
-
+            { path: 'ho-so-nhan-su/thong-tin-chung/:id', component: ThongtinchungComponent },
+            { path: 'vai-tro', component: VaiTroComponent},
+            { path: 'vi-tri-cong-viec', component: HosonhansuComponent},
         ]
     }
 ];

@@ -12,43 +12,46 @@ import { map } from 'rxjs';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { CoquandonviService } from 'app/services/coquandonvi.service';
-import { CreateChinhanhComponent } from './create-chinhanh/create-chinhanh.component';
-import { EditChinhanhComponent } from './edit-chinhanh/edit-chinhanh.component';
-import { ChiNhanhService } from 'app/services/chinhanh.service';
+import { CreateVaitroComponent } from './create-vaitro/create-vaitro.component';
+import { EditVaitroComponent } from './edit-vaitro/edit-vaitro.component';
+import { VaiTroService } from 'app/services/vaitro.service';
+
 
 @Component({
-  selector: 'app-chi-nhanh',
+  selector: 'app-vai-tro',
   standalone: true,
   styles: [
     /* language=SCSS */
     `
-        .donvi-grid {
-            grid-template-columns: auto 112px;
+        .vaitro-grid {
+            grid-template-columns: auto 96px;
 
             @screen sm {
-                grid-template-columns:  auto 112px 96px;
+                grid-template-columns:  250px 96px;
             }
 
             @screen md {
-                grid-template-columns: 48px 150px 80px auto 96px;
+                grid-template-columns: 250px 96px;
             }
 
             @screen lg {
-                grid-template-columns: 20px 150px 60px 100px 100px auto 96px;
+                grid-template-columns: 20px 250px auto 96px;
             }
         }
     `,
   ],
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
-    FuseDrawerComponent, MatDividerModule, MatSidenavModule, CreateChinhanhComponent,
-    EditChinhanhComponent],
-  templateUrl: './chi-nhanh.component.html'
+    FuseDrawerComponent, MatDividerModule, MatSidenavModule, CreateVaitroComponent,
+    EditVaitroComponent, CommonModule],
+  templateUrl: './vai-tro.component.html'
 })
-export class ChiNhanhComponent {
+export class VaiTroComponent {
   @ViewChild('addDrawer', { static: false }) addDrawer: FuseDrawerComponent;
+
   public data$;
   selectedData: any;
+
   drawerComponent: 'new-data' | 'edit-data';
   configForm: UntypedFormGroup;
 
@@ -57,7 +60,7 @@ export class ChiNhanhComponent {
    */
   constructor(private _fuseConfirmationService: FuseConfirmationService,
     private _formBuilder: UntypedFormBuilder,
-    private _chinhanhvanphongService: ChiNhanhService
+    private _vaitroService: VaiTroService
   ) 
   {
   }
@@ -110,7 +113,7 @@ export class ChiNhanhComponent {
     // Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'confirmed') {
-        this._chinhanhvanphongService.delete(role.id).subscribe(() => {
+        this._vaitroService.delete(role.id).subscribe(() => {
           this.getTableData();
         });
       }
@@ -120,7 +123,7 @@ export class ChiNhanhComponent {
 
   // get data from api
   getTableData() {
-    this.data$ = this._chinhanhvanphongService.getAllNoPaging().pipe(
+    this.data$ = this._vaitroService.getAllNoPaging().pipe(
       map((data: any) => {
         const items: any[] = data.map((item, index: number) => ({
           ...item,

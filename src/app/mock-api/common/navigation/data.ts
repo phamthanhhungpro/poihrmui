@@ -89,6 +89,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'mat_outline:arrow_drop_down',
                 link: '/chuc-danh'
             },
+            {
+                id: 'vai-tro',
+                title: 'Vai trò',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/vai-tro'
+            },
+            {
+                id: 'vi-tri-cong-viec',
+                title: 'Vị trí công việc',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/vi-tri-cong-viec'
+            },
         ]
     },
 

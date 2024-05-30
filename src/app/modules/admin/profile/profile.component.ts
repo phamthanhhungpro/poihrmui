@@ -4,17 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
-import { AssignPermissionComponent } from '../permission/assign-permission/assign-permission.component';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { UserApiService } from 'app/services/user.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { RouterLink } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
 import { RoleService } from 'app/services/role.service';
@@ -25,7 +15,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
   selector: 'app-profile',
   standalone: true,
   imports: [MatSidenavModule, MatButtonModule, MatIconModule, NgForOf, NgClass, NgSwitch, NgSwitchCase, AsyncPipe,
-    NgIf, AssignPermissionComponent, MatTabsModule, ProfileInfoComponent, ChangePasswordComponent],
+    NgIf, MatTabsModule, ProfileInfoComponent, ChangePasswordComponent],
   templateUrl: './profile.component.html'
 })
 export class ProfileComponent {

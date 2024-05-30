@@ -9,17 +9,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { Router, RouterLink } from '@angular/router';
 import { FuseDrawerComponent } from '@fuse/components/drawer';
-import { AddManagerComponent } from '../user/add-manager/add-manager.component';
-import { EditUserComponent } from '../user/edit-user/edit-user.component';
-import { NewUserComponent } from '../user/new-user/new-user.component';
-import { ResetPwdComponent } from '../user/reset-pwd/reset-pwd.component';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { FuseMediaWatcherService } from '@fuse/services/media-watcher';
-import { Constants } from 'app/mock-api/common/constants';
-import { isAllowCRUD, isOWnerRole, isSsaRole } from 'app/mock-api/common/user/roleHelper';
-import { UserApiService } from 'app/services/user.service';
 import { environment } from 'environments/environment';
 import { Subject, takeUntil, map } from 'rxjs';
 import { CreateHosonhansuComponent } from './create-hosonhansu/create-hosonhansu.component';
@@ -30,8 +23,7 @@ import { HosonhansuService } from 'app/services/hosonhansu.service';
   standalone: true,
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
-    FuseDrawerComponent, MatDividerModule, MatSidenavModule, NewUserComponent,
-    EditUserComponent, MatPaginatorModule, AddManagerComponent, CreateHosonhansuComponent],
+    FuseDrawerComponent, MatDividerModule, MatSidenavModule, MatPaginatorModule, CreateHosonhansuComponent],
   templateUrl: './hosonhansu.component.html'
 })
 export class HosonhansuComponent {

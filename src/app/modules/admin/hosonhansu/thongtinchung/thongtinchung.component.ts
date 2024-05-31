@@ -109,8 +109,8 @@ export class ThongtinchungComponent {
 
         this.accountForm.get('fullName').setValue(res.user.fullName);
         this.accountForm.get('tenKhac').setValue(res.tenKhac);
-        this.accountForm.get('vanphong').setValue(res.user.vanphong);
-        this.accountForm.get('phongban').setValue(res.user.phongban);
+        this.accountForm.get('vanphong').setValue(res.chiNhanhVanPhong?.name);
+        this.accountForm.get('phongban').setValue(res.phongBanBoPhan?.name);
         this.accountForm.get('email').setValue(res.user.email);
         this.accountForm.get('phone').setValue(res.user.phone);
 

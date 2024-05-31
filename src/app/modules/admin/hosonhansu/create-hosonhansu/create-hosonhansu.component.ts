@@ -17,6 +17,9 @@ import { HosonhansuService } from 'app/services/hosonhansu.service';
 import {MatStepperModule} from '@angular/material/stepper';
 import { SearchableSelectComponent } from 'app/common/components/select-search/searchable-select.component';
 import { VaiTroService } from 'app/services/vaitro.service';
+import { ChiNhanhService } from 'app/services/chinhanh.service';
+import { PhongBanBoPhanService } from 'app/services/phongbanbophan.service';
+import { ViTriCongViecService } from 'app/services/vitricongviec.service';
 
 @Component({
   selector: 'app-create-hosonhansu',
@@ -40,6 +43,9 @@ export class CreateHosonhansuComponent {
   thongtinchungForm: UntypedFormGroup;
   phongbanForm: UntypedFormGroup;
   options;
+  vanPhongOptions;
+  phongBanOptions;
+  viTriCongViecOptions;
   /**
    *
    */
@@ -47,8 +53,10 @@ export class CreateHosonhansuComponent {
     private _userService: UserApiService,
     private _snackBar: MatSnackBar,
     private _hosonhansu: HosonhansuService,
-    private _changeDetectorRef: ChangeDetectorRef,
-    private _vaitroService: VaiTroService,) {
+    private _vaitroService: VaiTroService,
+    private _vanphongService: ChiNhanhService,
+    private _phongbanService: PhongBanBoPhanService,
+    private _vitricongviecService: ViTriCongViecService) {
     this.addDataForm = this._formBuilder.group({
       fullName: [''],
       searchUserName: [''],
@@ -68,20 +76,37 @@ export class CreateHosonhansuComponent {
     });
 
     this.phongbanForm = this._formBuilder.group({
-      vaiTro: [''],
-      vanPhong: [''],
-      phongBan: [''],
-      viTriCongViec: [''],
+      vaiTroId: [''],
+      chiNhanhVanPhongId: [''],
+      phongBanBoPhanId: [''],
+      viTriCongViecId: [''],
     });
   }
   ngOnInit() {
     this.getListCanBeManager();
     this.getListVaiTro();
+    this.getVanPhong();
+    this.getPhongBan();
+    this.getViTriCongViec();
   }
 
   save() {
     this.addDataForm.value.userId = this.selectedUser.id;
-    this._hosonhansu.create(this.addDataForm.value).subscribe(
+
+    const addData = this.addDataForm.value;
+    const thongtinchungData = this.thongtinchungForm.value;
+    const phongbanData = this.phongbanForm.value;
+  
+    const data = {
+      ...addData,
+      ...thongtinchungData,
+      ...phongbanData
+    };
+  
+    // Now you can send mergedData to your server or handle it as needed
+    console.log(data);
+
+    this._hosonhansu.create(data).subscribe(
       (res) => {
         this.openSnackBar('Thao tác thành công', 'Đóng');
         this.onClosed.emit();
@@ -145,11 +170,46 @@ export class CreateHosonhansuComponent {
       map(data => data.map(item => ({ key: item.id, value: item.tenVaiTro })))
     ).subscribe(data => {
       this.options = data;
-      // this._changeDetectorRef.detectChanges();
+    });
+  }
+
+  getVanPhong() {
+    this._vanphongService.getAllNoPaging().pipe(
+      map(data => data.map(item => ({ key: item.id, value: item.name })))
+    ).subscribe(data => {
+      this.vanPhongOptions = data;
+    });
+  }
+
+  getPhongBan() {
+    this._phongbanService.getAllNoPaging().pipe(
+      map(data => data.map(item => ({ key: item.id, value: item.name })))
+    ).subscribe(data => {
+      this.phongBanOptions = data;
+    });
+  }
+
+  getViTriCongViec() {
+    this._vitricongviecService.getAllNoPaging().pipe(
+      map(data => data.map(item => ({ key: item.id, value: item.tenViTri })))
+    ).subscribe(data => {
+      this.viTriCongViecOptions = data;
     });
   }
 
   setVaiTro(value)  {
-    this.phongbanForm.get('vaiTro')!.setValue(value);
+    this.phongbanForm.get('vaiTroId')!.setValue(value);
+  }
+
+  setVanPhong(value)  {
+    this.phongbanForm.get('chiNhanhVanPhongId')!.setValue(value);
+  }
+
+  setPhongBan(value)  {
+    this.phongbanForm.get('phongBanBoPhanId')!.setValue(value);
+  }
+
+  setViTriCongViec(value)  {
+    this.phongbanForm.get('viTriCongViecId')!.setValue(value);
   }
 }

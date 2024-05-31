@@ -363,7 +363,7 @@
                 <div class="sm:col-span-4"
                     [style.display]="accordionItem3.expanded ? 'block!important' : 'none!important'"
                     [attr.id]="'accordion-body-3'" [attr.aria-labelledby]="'accordion-header-3'">
-                    <h3 class="text-lg font-semibold">28. Tóm tắt Quá trình công tác</h3>
+                    <h3 class="text-lg font-semibold">28. Tóm tắt quá trình công tác</h3>
                     <div formArrayName="quaTrinhCongTacs">
                         <div *ngFor="let group of quaTrinhCongTacs.controls; let i = index" [formGroupName]="i"
                             class="grid sm:grid-cols-3 gap-4">
@@ -398,7 +398,7 @@
                 [attr.aria-controls]="'accordion-body-4'">
                 <div class="flex justify-between p-4 cursor-pointer bg-gray-200 hover:bg-gray-300"
                     (click)="accordionItem4.toggle()">
-                    Quan Hệ Gia Đình
+                    Quan hệ gia đình
                     <span class="text-sm text-gray-600">
                         Ấn để {{ accordionItem4.expanded ? 'đóng' : 'mở' }}
                     </span>
@@ -406,7 +406,7 @@
                 <div class="sm:col-span-4"
                     [style.display]="accordionItem4.expanded ? 'block!important' : 'none!important'"
                     [attr.id]="'accordion-body-4'" [attr.aria-labelledby]="'accordion-header-4'">
-                    <h3 class="text-lg font-semibold">30. Quan Hệ GIA Đình</h3>
+                    <h3 class="text-lg font-semibold">30. Quan hệ gia đình</h3>
                     <div formArrayName="quanHeGiaDinhs">
                         <div *ngFor="let group of quanHeGiaDinhs.controls; let i = index" [formGroupName]="i"
                             class="grid sm:grid-cols-5 gap-4">

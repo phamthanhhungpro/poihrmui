@@ -11,18 +11,18 @@ import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { map } from 'rxjs';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { CreateVaitroComponent } from './create-vaitro/create-vaitro.component';
-import { EditVaitroComponent } from './edit-vaitro/edit-vaitro.component';
-import { VaiTroService } from 'app/services/vaitro.service';
+import { ViTriCongViecService } from 'app/services/vitricongviec.service';
+import { CreateViTriCongViecComponent } from './create-vitricongviec/create-vitricongviec.component';
+import { EditViTriCongViecComponent } from './edit-vitricongviec/edit-vitricongviec.component';
 
 
 @Component({
-  selector: 'app-vai-tro',
+  selector: 'app-vi-tri-cong-viec',
   standalone: true,
   styles: [
     /* language=SCSS */
     `
-        .vaitro-grid {
+        .vitri-grid {
             grid-template-columns: auto 96px;
 
             @screen sm {
@@ -41,11 +41,11 @@ import { VaiTroService } from 'app/services/vaitro.service';
   ],
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
-    FuseDrawerComponent, MatDividerModule, MatSidenavModule, CreateVaitroComponent,
-    EditVaitroComponent, CommonModule],
-  templateUrl: './vai-tro.component.html'
+    FuseDrawerComponent, MatDividerModule, MatSidenavModule, CommonModule,
+    CreateViTriCongViecComponent, EditViTriCongViecComponent],
+  templateUrl: './vi-tri-cong-viec.component.html'
 })
-export class VaiTroComponent {
+export class ViTriCongViecComponent {
   @ViewChild('addDrawer', { static: false }) addDrawer: FuseDrawerComponent;
 
   public data$;
@@ -59,7 +59,7 @@ export class VaiTroComponent {
    */
   constructor(private _fuseConfirmationService: FuseConfirmationService,
     private _formBuilder: UntypedFormBuilder,
-    private _vaitroService: VaiTroService
+    private _ViTriCongViecService: ViTriCongViecService
   ) 
   {
   }
@@ -112,7 +112,7 @@ export class VaiTroComponent {
     // Subscribe to afterClosed from the dialog reference
     dialogRef.afterClosed().subscribe((result) => {
       if (result === 'confirmed') {
-        this._vaitroService.delete(role.id).subscribe(() => {
+        this._ViTriCongViecService.delete(role.id).subscribe(() => {
           this.getTableData();
         });
       }
@@ -122,7 +122,7 @@ export class VaiTroComponent {
 
   // get data from api
   getTableData() {
-    this.data$ = this._vaitroService.getAllNoPaging().pipe(
+    this.data$ = this._ViTriCongViecService.getAllNoPaging().pipe(
       map((data: any) => {
         const items: any[] = data.map((item, index: number) => ({
           ...item,

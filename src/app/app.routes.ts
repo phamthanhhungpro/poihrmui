@@ -8,6 +8,7 @@ import { DantocComponent } from './modules/admin/categories/dantoc/dantoc.compon
 import { HosonhansuComponent } from './modules/admin/hosonhansu/hosonhansu.component';
 import { ThongtinchungComponent } from './modules/admin/hosonhansu/thongtinchung/thongtinchung.component';
 import { VaiTroComponent } from './modules/admin/settings/vai-tro/vai-tro.component';
+import { ViTriCongViecComponent } from './modules/admin/settings/vi-tri-cong-viec/vi-tri-cong-viec.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -83,7 +84,7 @@ export const appRoutes: Route[] = [
             {path: 'ho-so-nhan-su', component: HosonhansuComponent},
             { path: 'ho-so-nhan-su/thong-tin-chung/:id', component: ThongtinchungComponent },
             { path: 'vai-tro', component: VaiTroComponent},
-            { path: 'vi-tri-cong-viec', component: HosonhansuComponent},
+            { path: 'vi-tri-cong-viec', component: ViTriCongViecComponent},
         ]
     }
 ];

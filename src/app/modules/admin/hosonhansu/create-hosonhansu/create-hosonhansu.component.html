@@ -126,25 +126,22 @@
                             placeholder="Chọn vai trò" (selectionChange)="setVaiTro($event)">
                         </app-searchable-select>
                     </div>
-
-                    <div class="flex">
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Văn phòng</mat-label>
-                            <input matInput [placeholder]="'Văn phòng'" [formControlName]="'vanPhong'">
-                        </mat-form-field>
+                    <div *ngIf="vanPhongOptions">
+                        <app-searchable-select [options]="vanPhongOptions" [label]="'Văn phòng'"
+                            placeholder="Chọn văn phòng" (selectionChange)="setVanPhong($event)">
+                        </app-searchable-select>
                     </div>
-                    <div class="flex">
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Đơn vị/Phòng ban</mat-label>
-                            <input matInput [placeholder]="'Phòng ban'" [formControlName]="'phongBan'">
-                        </mat-form-field>
 
+                    <div *ngIf="phongBanOptions">
+                        <app-searchable-select [options]="phongBanOptions" [label]="'Đơn vị/Phòng ban'"
+                            placeholder="Chọn đơn vị/phòng ban" (selectionChange)="setPhongBan($event)">
+                        </app-searchable-select>
                     </div>
-                    <div class="flex">
-                        <mat-form-field class="flex-auto">
-                            <mat-label>Vị trí công việc</mat-label>
-                            <input matInput [placeholder]="'Vị trí công việc'" [formControlName]="'viTriCongViec'">
-                        </mat-form-field>
+
+                    <div *ngIf="viTriCongViecOptions">
+                        <app-searchable-select [options]="viTriCongViecOptions" [label]="'Vị trí công việc'"
+                            placeholder="Chọn vị trí công việc" (selectionChange)="setViTriCongViec($event)">
+                        </app-searchable-select>
                     </div>
 
                     <div class="flex">

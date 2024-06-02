@@ -189,6 +189,7 @@ export class EditHosonhansuComponent {
     console.log(this.employeeForm.value);
 
     var data = {
+      userId : this.data.userId,
       thongTinThem: this.employeeForm.value
     };
 

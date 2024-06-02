@@ -108,7 +108,7 @@
     [position]="'right'" [opened]="false" (openedChanged)="drawerOpenedChanged($event)" #addDrawer>
     <div class="flex flex-col w-full overflow-auto bg-card">
         <ng-container *ngIf="drawerComponent === 'edit-data'">
-            <app-edit-hosonhansu [drawer]="addDrawer" [data]="hosoModel" (onClosed)="getData()"></app-edit-hosonhansu>
+            <app-edit-hosonhansu [drawer]="addDrawer" [data]="hosoModel" (onClosed)="getInfo()"></app-edit-hosonhansu>
         </ng-container>
     </div>
 </fuse-drawer>

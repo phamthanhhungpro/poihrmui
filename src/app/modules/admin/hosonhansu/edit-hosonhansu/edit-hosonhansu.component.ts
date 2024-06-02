@@ -119,10 +119,10 @@ export class EditHosonhansuComponent {
     return this.fb.group({
       tenTruong: [''],
       chuyenNganh: [''],
-      tuThangNam: [''],
-      denThangNam: [''],
+      tuNgay: [''],
+      denNgay: [''],
       hinhThucDaoTao: [''],
-      vanBangChungChi: ['']
+      vanBang: ['']
     });
   }
 
@@ -137,7 +137,7 @@ export class EditHosonhansuComponent {
   createQuanHeGiaDinhGroup(): UntypedFormGroup {
     return this.fb.group({
       moiQuanHe: [''],
-      hoVaTen: [''],
+      hoTen: [''],
       namSinh: [''],
       queQuan: [''],
       ngheNghiep: ['']

@@ -103,6 +103,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'mat_outline:arrow_drop_down',
                 link: '/vi-tri-cong-viec'
             },
+            {
+                id: 'tham-so-luong',
+                title: 'Tham số lương',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/tham-so-luong'
+            },
+            {
+                id: 'cong-thuc-luong',
+                title: 'Chính sách/Công thức lương',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/cong-thuc-luong'
+            },
         ]
     },
 

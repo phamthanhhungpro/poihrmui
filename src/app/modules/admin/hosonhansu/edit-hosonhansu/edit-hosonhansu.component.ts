@@ -205,7 +205,7 @@ export class EditHosonhansuComponent {
         },
         error => {
           // Handle error response
-          console.error('Update failed:', error);
+          this.openSnackBar('Có lỗi xảy ra', 'Đóng');
         }
       );
   }

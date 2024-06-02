@@ -142,7 +142,7 @@ export class CreateHosonhansuComponent {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.selectedUser = event.option.value;
-
+    console.log(this.selectedUser);
     this.addDataForm.get('searchUserName')!.setValue(this.selectedUser.userName);
     this.addDataForm.patchValue(this.selectedUser);
   }

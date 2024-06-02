@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, UntypedFormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TextFieldModule } from '@angular/cdk/text-field';
@@ -13,8 +13,9 @@ import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
-import {CdkAccordionModule} from '@angular/cdk/accordion';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { HosonhansuService } from 'app/services/hosonhansu.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-edit-hosonhansu',
@@ -28,14 +29,16 @@ export class EditHosonhansuComponent {
   employeeForm: UntypedFormGroup;
   @Input() drawer: MatDrawer;
   @Input() data; // Id hosonhansu
+  @Output() onClosed = new EventEmitter<any>();
 
   items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   expandedIndex = 0;
   constructor(private fb: FormBuilder,
-              private _hosonhansuService: HosonhansuService
+    private _hosonhansuService: HosonhansuService,
+    private _snackBar: MatSnackBar,
   ) {
     this.employeeForm = this.fb.group({
-      ngheNghiepKhiDuocTuyenDung: [''],
+      ngheNghiepKhiTuyenDung: [''],
       ngayTuyenDung: [''],
       coQuanTuyenDung: [''],
       chucVuHienTai: [''],
@@ -189,20 +192,26 @@ export class EditHosonhansuComponent {
     console.log(this.employeeForm.value);
 
     var data = {
-      userId : this.data.userId,
+      userId: this.data.userId,
       thongTinThem: this.employeeForm.value
     };
 
     this._hosonhansuService.update(this.data.id, data)
       .subscribe(
-      response => {
-        // Handle success response
-        console.log('Update successful:', response);
-      },
-      error => {
-        // Handle error response
-        console.error('Update failed:', error);
-      }
+        response => {
+          this.openSnackBar('Thao tác thành công', 'Đóng');
+          this.onClosed.emit();
+          this.drawer.close();
+        },
+        error => {
+          // Handle error response
+          console.error('Update failed:', error);
+        }
       );
+  }
+
+  // snackbar
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 2000 });
   }
 }

@@ -105,25 +105,29 @@ export class ChamCongDiemDanhComponent {
           title: 'Quên chấm công',
           start: '2024-06-21',
           description: 'Chờ giải trình',
-          color: '#ff0000'
+          color: '#ff0000',
+          isValid: false
         },
         {
           title: 'Hợp lệ',
           start: '2024-06-06',
           description: 'Đi làm',
-          color: '#217a38'
+          color: '#217a38',
+          isValid: true
         },
         {
           title: 'Hợp lệ',
           start: '2024-06-07',
           description: 'Đi làm',
-          color: '#217a38'
+          color: '#217a38',
+          isValid: true
         },
         {
           title: 'Hợp lệ',
           start: '2024-06-10',
           description: 'Đi làm',
-          color: '#217a38'
+          color: '#217a38',
+          isValid: true
         },
       ],
       dateClick: this.handleDateClick.bind(this),
@@ -131,20 +135,37 @@ export class ChamCongDiemDanhComponent {
       height: 'auto',
       locales: allLocales,
       locale: 'vi',
-      eventDidMount: function (info) {
+      eventContent: (info) => {
+        let descriptionElement = document.createElement('div');
         if (info.event.extendedProps.description) {
-          var eventElement = info.el;
-          let descriptionElement = document.createElement('div');
-          
           descriptionElement.innerHTML = `<div class="">${info.event.extendedProps.description}</div>`;
-          descriptionElement.style.color =  "#fff";
-          eventElement.appendChild(descriptionElement);
+          descriptionElement.style.color = "#fff";
         }
+        let iconElement = document.createElement('span');
+
+        if (info.event.extendedProps.isValid) {
+          iconElement.innerHTML = '✔';
+          iconElement.style.color = info.event.backgroundColor;
+          iconElement.style.marginLeft = '5px';
+
+          let confirmElement = document.createElement('span');
+          confirmElement.innerHTML = 'Xác nhận';
+
+          descriptionElement.appendChild(confirmElement);
+        }
+        let titleElement = document.createElement('div');
+        titleElement.style.display = 'flex';
+        titleElement.style.alignItems = 'center';
+        titleElement.innerHTML = `${info.event.title}`;
+        titleElement.appendChild(iconElement);
+        let arrayOfDomNodes = [titleElement, descriptionElement];
+  
+        return { domNodes: arrayOfDomNodes };
       }
     };
 
     setTimeout(() => {
       this.calendarComponent.getApi().updateSize();
-    }, 250);
+    }, 100);
   }
 }

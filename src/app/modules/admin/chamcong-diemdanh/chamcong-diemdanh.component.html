@@ -33,21 +33,10 @@
 
     <!-- Main -->
     <div class="flex flex-auto -mt-16 p-6 sm:p-10 overflow-hidden bg-card" cdkScrollable>
-        <app-calendar-event></app-calendar-event>
+
+        <!-- CONTENT GOES HERE -->
+        <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
+            <full-calendar #fullCalendar [options]="calendarOptions"></full-calendar>
+        </div>
     </div>
 </div>
-
-<fuse-drawer class="w-screen min-w-screen sm:w-140 sm:min-w-140 z-999" fixed [mode]="'over'" [name]="'addDrawer'"
-    [position]="'right'" [opened]="false" (openedChanged)="drawerOpenedChanged($event)" #addDrawer>
-    <div class="flex flex-col w-full overflow-auto bg-card">
-        <!-- add data component -->
-        <ng-container *ngIf="drawerComponent === 'new-data'">
-            <!-- <app-create-thamsoluong [drawer]="addDrawer" (onClosed)="getTableData()"></app-create-thamsoluong> -->
-        </ng-container>
-        <!-- edit data component -->
-        <ng-container *ngIf="drawerComponent === 'edit-data'">
-            <!-- <app-edit-thamsoluong [drawer]="addDrawer" [data]="selectedData" (onClosed)="getTableData()"></app-edit-thamsoluong> -->
-        </ng-container>
-
-    </div>
-</fuse-drawer>

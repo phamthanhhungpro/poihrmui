@@ -1,36 +1,41 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarOptions } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
 @Component({
   selector: 'app-calendar-event',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FullCalendarModule ],
   templateUrl: './calendar-event.component.html',
   styleUrl: './calendar-event.component.scss'
 })
 export class CalendarEventComponent {
-  calendarDays: any[] = [];
+  calendarOptions: CalendarOptions;
 
-  ngOnInit(): void {
-    this.generateCalendar();
+  ngOnInit() {
+    this.calendarOptions = {
+      initialView: 'dayGridMonth',
+      plugins: [dayGridPlugin, interactionPlugin],
+      events: [
+        { title: 'Holiday', start: '2024-06-01' },
+        { title: 'Forgot to check in', start: '2024-06-02' },
+        { title: 'Waiting for explanation', start: '2024-06-02' },
+        { title: 'Holiday', start: '2024-06-06' },
+        { title: 'Confirmed', start: '2024-06-06' },
+        { title: 'Late', start: '2024-06-09' },
+        { title: 'Meeting', start: '2024-06-20' },
+        { title: 'Working', start: '2024-06-20' },
+        { title: 'Forgot to check out', start: '2024-06-21' },
+        { title: 'Waiting for explanation', start: '2024-06-21' }
+      ],
+      dateClick: this.handleDateClick.bind(this)
+    };
   }
 
-  generateCalendar(): void {
-    // Generate the calendar days with sample data
-    const daysInMonth = 30; // Adjust as needed
-    const events = [
-      { date: 1, name: 'Ngày nghỉ', class: 'bg-orange-200' },
-      { date: 2, name: 'Quên chấm công vào', class: 'bg-green-200' },
-      // Add more events as needed
-    ];
-
-    for (let i = 1; i <= daysInMonth; i++) {
-      const dayEvents = events.filter(event => event.date === i);
-      this.calendarDays.push({
-        date: i,
-        classes: 'p-2 border',
-        events: dayEvents
-      });
-    }
+  handleDateClick(arg) {
+    alert('Date clicked: ' + arg.dateStr);
   }
 }

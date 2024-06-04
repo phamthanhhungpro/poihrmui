@@ -1,0 +1,22 @@
+<div class="p-4">
+    <div class="grid grid-cols-7 gap-4 text-center text-sm font-medium">
+      <div>T2</div>
+      <div>T3</div>
+      <div>T4</div>
+      <div>T5</div>
+      <div>T6</div>
+      <div>T7</div>
+      <div>CN</div>
+    </div>
+  
+    <div class="grid grid-cols-7 gap-4 text-center text-sm">
+      <!-- Loop through days to generate cells -->
+      <div *ngFor="let day of calendarDays" [ngClass]="day.classes" class="p-2 border">
+        <div>{{ day.date }}</div>
+        <div *ngFor="let event of day.events" class="mt-2">
+          <div [ngClass]="event.class">{{ event.name }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -11,6 +11,7 @@ import { VaiTroComponent } from './modules/admin/settings/vai-tro/vai-tro.compon
 import { ViTriCongViecComponent } from './modules/admin/settings/vi-tri-cong-viec/vi-tri-cong-viec.component';
 import { ThamSoLuongComponent } from './modules/admin/settings/tham-so-luong/tham-so-luong.component';
 import { CongThucLuongComponent } from './modules/admin/settings/cong-thuc-luong/cong-thuc-luong.component';
+import { ThietLapChamCongComponent } from './modules/admin/settings/thiet-lap-cham-cong/thiet-lap-cham-cong.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -89,6 +90,7 @@ export const appRoutes: Route[] = [
             { path: 'vi-tri-cong-viec', component: ViTriCongViecComponent},
             { path: 'tham-so-luong', component: ThamSoLuongComponent},
             { path: 'cong-thuc-luong', component: CongThucLuongComponent},
+            { path: 'thiet-lap-cham-cong', component: ThietLapChamCongComponent},
         ]
     }
 ];

@@ -117,6 +117,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'mat_outline:arrow_drop_down',
                 link: '/cong-thuc-luong'
             },
+            {
+                id: 'thiet-lap-cham-cong',
+                title: 'Thiết lập chấm công',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/thiet-lap-cham-cong'
+            },
         ]
     },
 

@@ -17,6 +17,8 @@ import interactionPlugin from '@fullcalendar/interaction';
 import allLocales from '@fullcalendar/core/locales-all';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { co } from '@fullcalendar/core/internal-common';
+import { ChamCongDiemDanhService } from 'app/services/chamcongdiemdanh.service';
+import { TrangThaiLabel } from 'app/mock-api/common/constants';
 
 @Component({
   selector: 'app-chamcong-diemdanh',
@@ -37,13 +39,18 @@ export class ChamCongDiemDanhComponent {
   drawerComponent: 'new-data' | 'edit-data';
   configForm: UntypedFormGroup;
   calendarOptions;
+  userInfo = {
+    role: localStorage.getItem('role'),
+    tenantId: localStorage.getItem('tenantId'),
+    userId: localStorage.getItem('userId')
+  }
   @ViewChild('fullCalendar') calendarComponent: FullCalendarComponent;
   /**
    * Constructor
    */
   constructor(private _fuseConfirmationService: FuseConfirmationService,
     private _formBuilder: UntypedFormBuilder,
-    private _thamsoluongService: ThamSoLuongService,
+    private _chamcongdiemdanhService: ChamCongDiemDanhService,
     private cdr: ChangeDetectorRef
   ) {
   }
@@ -97,75 +104,76 @@ export class ChamCongDiemDanhComponent {
       },
       eventOrder: 'start',
       events: [
-        {
-          daysOfWeek: [0, 6], //Sundays and saturdays
-          display: 'background'
-        },
-        {
-          title: 'Quên chấm công',
-          start: '2024-06-21',
-          description: 'Chờ giải trình',
-          color: '#ff0000',
-          isValid: false
-        },
-        {
-          title: 'Hợp lệ',
-          start: '2024-06-06',
-          description: 'Đi làm',
-          color: '#217a38',
-          isValid: true
-        },
-        {
-          title: 'Hợp lệ',
-          start: '2024-06-07',
-          description: 'Đi làm',
-          color: '#217a38',
-          isValid: true
-        },
-        {
-          title: 'Hợp lệ',
-          start: '2024-06-10',
-          description: 'Đi làm',
-          color: '#217a38',
-          isValid: true
-        },
       ],
       dateClick: this.handleDateClick.bind(this),
       eventClick: this.handleEventClick.bind(this),
       height: 'auto',
       locales: allLocales,
       locale: 'vi',
-      eventContent: (info) => {
-        let descriptionElement = document.createElement('div');
-        if (info.event.extendedProps.description) {
-          descriptionElement.innerHTML = `<div class="">${info.event.extendedProps.description}</div>`;
-          descriptionElement.style.color = "#fff";
-        }
-        let iconElement = document.createElement('span');
-
-        if (info.event.extendedProps.isValid) {
-          iconElement.innerHTML = '✔';
-          iconElement.style.color = info.event.backgroundColor;
-          iconElement.style.marginLeft = '5px';
-
-          let confirmElement = document.createElement('span');
-          confirmElement.innerHTML = 'Xác nhận';
-
-          descriptionElement.appendChild(confirmElement);
-        }
-        let titleElement = document.createElement('div');
-        titleElement.style.display = 'flex';
-        titleElement.style.alignItems = 'center';
-        titleElement.innerHTML = `${info.event.title}`;
-        titleElement.appendChild(iconElement);
-        let arrayOfDomNodes = [titleElement, descriptionElement];
-  
-        return { domNodes: arrayOfDomNodes };
-      }
+      eventContent: this.customEventContent.bind(this),
+      datesSet: this.onDatesSet.bind(this) // Add datesSet callback
     };
 
     setTimeout(() => {
       this.calendarComponent.getApi().updateSize();
     }, 100);
+  }
+
+  onDatesSet(dateInfo) {
+    const start = dateInfo.startStr;
+    const end = dateInfo.endStr;
+    this._chamcongdiemdanhService.getDataByUserId(this.userInfo.userId, { start, end }).subscribe((data) => {
+      const calendarApi = this.calendarComponent.getApi();
+      this.calendarComponent.getApi().removeAllEvents();
+      data.map((item) => {
+        const date = new Date(item.thoiGian).toISOString().split('T')[0];
+        calendarApi.addEvent({
+          title: item.hrmTrangThaiChamCong.tenTrangThai,
+          start: date,
+          trangthai: TrangThaiLabel[item.trangThai],
+          congkhaibao: "Đi làm",
+          color: item.hrmTrangThaiChamCong.mauSac,
+          isValid: item.trangThai === 1
+        });
+      });
+
+      calendarApi.addEvent({
+        daysOfWeek: [0, 6], //Sundays and saturdays
+        display: 'background'
+      });
+
+      this.cdr.detectChanges();
+    });
+  }
+
+  customEventContent(info) {
+    let descriptionElement = document.createElement('div');
+    if (info.event.extendedProps.congkhaibao) {
+      descriptionElement.innerHTML = `<div class="">${info.event.extendedProps.congkhaibao}</div>`;
+      descriptionElement.style.color = "#fff";
+    }
+    let iconElement = document.createElement('span');
+
+    if (info.event.extendedProps.isValid) {
+      iconElement.innerHTML = '✔';
+      iconElement.style.color = info.event.backgroundColor;
+      iconElement.style.marginLeft = '5px';
+    }
+
+    if (info.event.extendedProps.trangthai) { 
+      let trangthaiElement = document.createElement('span');
+      trangthaiElement.innerHTML = info.event.extendedProps.trangthai;
+  
+      descriptionElement.appendChild(trangthaiElement);
+    }
+
+    let titleElement = document.createElement('div');
+    titleElement.style.display = 'flex';
+    titleElement.style.alignItems = 'center';
+    titleElement.innerHTML = `${info.event.title}`;
+    titleElement.appendChild(iconElement);
+    let arrayOfDomNodes = [titleElement, descriptionElement];
+
+    return { domNodes: arrayOfDomNodes };
   }
 }

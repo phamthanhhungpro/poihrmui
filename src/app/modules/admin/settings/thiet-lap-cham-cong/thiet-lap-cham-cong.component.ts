@@ -34,7 +34,7 @@ import { TrangThaiChamCongService } from 'app/services/trangthaichamcong.service
             }
 
             @screen lg {
-                grid-template-columns: 20px 100px 100px 100px 100px auto 96px;
+                grid-template-columns: 20px 150px 150px 100px 100px auto 96px;
             }
         }
     `,

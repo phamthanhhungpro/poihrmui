@@ -10,15 +10,14 @@ import { RouterLink } from '@angular/router';
 import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { ThamSoLuongService } from 'app/services/thamsoluong.service';
 import { FullCalendarComponent, FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import allLocales from '@fullcalendar/core/locales-all';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { co } from '@fullcalendar/core/internal-common';
 import { ChamCongDiemDanhService } from 'app/services/chamcongdiemdanh.service';
-import { TrangThaiLabel } from 'app/mock-api/common/constants';
+import { TrangThai, TrangThaiLabel } from 'app/mock-api/common/constants';
+import { GiaiTrinhComponent } from './giai-trinh/giai-trinh.component';
 
 @Component({
   selector: 'app-chamcong-diemdanh',
@@ -27,7 +26,7 @@ import { TrangThaiLabel } from 'app/mock-api/common/constants';
   ],
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
-    FuseDrawerComponent, MatDividerModule, MatSidenavModule, CommonModule, FullCalendarModule],
+    FuseDrawerComponent, MatDividerModule, MatSidenavModule, CommonModule, FullCalendarModule, GiaiTrinhComponent],
   templateUrl: './chamcong-diemdanh.component.html'
 })
 export class ChamCongDiemDanhComponent {
@@ -86,14 +85,18 @@ export class ChamCongDiemDanhComponent {
   }
 
   handleDateClick(arg) {
-    alert('Date clicked: ' + arg.dateStr);
+    //alert('Date clicked: ' + arg.dateStr);
   }
 
   handleEventClick(arg) {
-    alert('Event clicked: ' + arg.event.start);
+    if (arg.event._def.extendedProps.trangthai === TrangThaiLabel[TrangThai.ChoGiaiTrinh]) {
+      this.selectedData = arg.event;
+      this.addData();
+    }
   }
 
   initCalendar() {
+    console.log('initCalendar');
     this.calendarOptions = {
       initialView: 'dayGridMonth',
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -128,10 +131,11 @@ export class ChamCongDiemDanhComponent {
       data.map((item) => {
         const date = new Date(item.thoiGian).toISOString().split('T')[0];
         calendarApi.addEvent({
+          id: item.id,
           title: item.hrmTrangThaiChamCong.tenTrangThai,
           start: date,
           trangthai: TrangThaiLabel[item.trangThai],
-          congkhaibao: "Đi làm",
+          congkhaibao: item.congkhaibao,
           color: item.hrmTrangThaiChamCong.mauSac,
           isValid: item.trangThai === 1
         });
@@ -160,10 +164,10 @@ export class ChamCongDiemDanhComponent {
       iconElement.style.marginLeft = '5px';
     }
 
-    if (info.event.extendedProps.trangthai) { 
+    if (info.event.extendedProps.trangthai) {
       let trangthaiElement = document.createElement('span');
       trangthaiElement.innerHTML = info.event.extendedProps.trangthai;
-  
+
       descriptionElement.appendChild(trangthaiElement);
     }
 
@@ -175,5 +179,22 @@ export class ChamCongDiemDanhComponent {
     let arrayOfDomNodes = [titleElement, descriptionElement];
 
     return { domNodes: arrayOfDomNodes };
+  }
+
+  reloadData() {
+    const calendarApi = this.calendarComponent.getApi();
+    const view = calendarApi.view;
+
+    // Function to format date to "YYYY-MM-DDTHH:MM:SS+07:00"
+    function formatDateToUTC7(date: Date) {
+      const utcDate = new Date(date.getTime() + (7 * 60 * 60 * 1000)); // Adjust to UTC+07:00
+      const isoString = utcDate.toISOString();
+      return isoString.replace('Z', '+07:00'); // Replace 'Z' with '+07:00' for time zone
+    }
+
+    const start = formatDateToUTC7(view.activeStart);
+    const end = formatDateToUTC7(view.activeEnd);
+
+    this.onDatesSet({ startStr: start, endStr: end });
   }
 }

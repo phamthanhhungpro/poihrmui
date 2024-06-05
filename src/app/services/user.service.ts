@@ -86,4 +86,10 @@ export class UserApiService {
   getUserToCreateHoSoNhanSu(): Observable<any[]> {
     return this.http.get<any[]>(`${baseUrl}/create-hosonhansu`);
   }
+
+  getUserPhongBanInfo(query): Observable<any> {
+    const queryString = objectToQueryString(query);
+
+    return this.http.get<any>(`${baseUrl}/phongban?${queryString}`);
+  }
 }

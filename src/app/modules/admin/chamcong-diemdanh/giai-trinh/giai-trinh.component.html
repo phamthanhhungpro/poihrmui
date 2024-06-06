@@ -7,8 +7,11 @@
 
         <div class="flex items-center">
             <!-- More menu -->
-            <button mat-flat-button [color]="'primary'" (click)="save()">
+            <button *ngIf="type!=='xac-nhan-giai-trinh'" mat-flat-button [color]="'primary'" (click)="save()">
                 Gửi xác nhận
+            </button>
+            <button *ngIf="type==='xac-nhan-giai-trinh'" mat-flat-button [color]="'warn'" (click)="confirm()">
+                Xác nhận
             </button>
             <button class="px-6 ml-3" mat-button (click)="cancelAdd()">
                 Hủy
@@ -133,14 +136,14 @@
                 </div>
                 <div class="flex">
                     <mat-form-field class="flex-auto">
-                        <mat-label>Người xác nhận</mat-label>
-                        <mat-select [formControlName]="'nguoiXacNhan'">
-                            @for (truongPhong of listTruongPhong; track truongPhong) {
-                            <mat-option [value]="truongPhong.id">{{truongPhong.fullName}}</mat-option>
-                            }
-                        </mat-select>
+                      <mat-label>Người xác nhận</mat-label>
+                      <mat-select [formControlName]="'nguoiXacNhan'">
+                        <mat-option *ngFor="let truongPhong of listTruongPhong" [value]="truongPhong.id">
+                          {{ truongPhong.fullName }}
+                        </mat-option>
+                      </mat-select>
                     </mat-form-field>
-                </div>
+                  </div>
             </div>
         </form>
 

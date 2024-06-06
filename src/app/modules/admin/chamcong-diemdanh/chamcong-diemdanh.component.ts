@@ -135,7 +135,7 @@ export class ChamCongDiemDanhComponent {
           title: item.hrmTrangThaiChamCong.tenTrangThai,
           start: date,
           trangthai: TrangThaiLabel[item.trangThai],
-          congkhaibao: item.congkhaibao,
+          congkhaibao: item.hrmCongKhaiBao?.tenCongKhaiBao,
           color: item.hrmTrangThaiChamCong.mauSac,
           isValid: item.trangThai === 1
         });
@@ -174,6 +174,8 @@ export class ChamCongDiemDanhComponent {
     let titleElement = document.createElement('div');
     titleElement.style.display = 'flex';
     titleElement.style.alignItems = 'center';
+    // title wrap text
+    titleElement.style.whiteSpace = 'normal';
     titleElement.innerHTML = `${info.event.title}`;
     titleElement.appendChild(iconElement);
     let arrayOfDomNodes = [titleElement, descriptionElement];

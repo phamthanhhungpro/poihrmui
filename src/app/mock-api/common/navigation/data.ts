@@ -37,6 +37,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'mat_outline:arrow_drop_down',
                 link: '/cham-cong-diem-danh'
+            },
+            {
+                id: 'xac-nhan-cham-cong',
+                title: 'Xác nhận chấm công',
+                type: 'basic',
+                icon: 'mat_outline:arrow_drop_down',
+                link: '/xac-nhan-cham-cong'
             }
         ]
     },

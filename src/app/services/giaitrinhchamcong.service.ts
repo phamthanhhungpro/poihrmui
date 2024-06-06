@@ -36,4 +36,13 @@ export class GiaiTrinhChamCongService {
   delete(id: any): Observable<any> {
     return this.http.delete(`${baseUrl}/${id}`);
   }
+
+  getDanhSachByUserId(query: any): Observable<any[]> {
+    const queryString = objectToQueryString(query);
+    return this.http.get<any[]>(`${baseUrl}/danh-sach-by-user?${queryString}`);
+  }
+
+  confirm(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/confirm`, data);
+  }
 }

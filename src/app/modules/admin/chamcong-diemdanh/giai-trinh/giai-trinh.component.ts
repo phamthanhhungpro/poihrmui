@@ -3,8 +3,6 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { UntypedFormGroup, UntypedFormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CongThucLuongService } from 'app/services/congthucluong.service';
-import { ThamSoLuongService } from 'app/services/thamsoluong.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +12,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { CongKhaiBaoService } from 'app/services/congkhaibao.service';
 import { UserApiService } from 'app/services/user.service';
 import { GiaiTrinhChamCongService } from 'app/services/giaitrinhchamcong.service';
-import { an } from '@fullcalendar/core/internal-common';
 
 @Component({
   selector: 'app-giai-trinh',
@@ -27,13 +24,14 @@ import { an } from '@fullcalendar/core/internal-common';
 export class GiaiTrinhComponent {
   @Input() drawer: MatDrawer;
   @Input() data: any;
+  @Input() type: any;
 
   @Output() onClosed = new EventEmitter<any>();
 
   addDataForm: UntypedFormGroup;
   tableData;
   congKhaiBaos;
-  listTruongPhong;
+  listTruongPhong = [];
 
   userInfo = {
     role: localStorage.getItem('role'),
@@ -59,11 +57,21 @@ export class GiaiTrinhComponent {
   }
 
   ngOnInit(): void {
-    this.getCongKhaiBao();
     this.getUserPhongBanInfo();
 
-    if (this.data) {
-      console.log(this.data.id);
+    this.getCongKhaiBao();
+
+    if (this.type === 'xac-nhan-giai-trinh') {
+      this.addDataForm.get('nguoiXacNhan').setValue(this.userInfo.userId);
+      this.addDataForm.get('ngayChamCong').setValue(this.convertDate(this.data.hrmChamCongDiemDanh.thoiGian));
+      this.addDataForm.get('loaiLoi').setValue(this.data.hrmChamCongDiemDanh.hrmTrangThaiChamCong.tenTrangThai);
+      this.addDataForm.get('congKhaiBaoId').setValue(this.data.hrmCongKhaiBao.id);
+      this.addDataForm.get('lyDo').setValue(this.data.lyDo);
+
+
+    };
+
+    if (this.type !== 'xac-nhan-giai-trinh') {
       this.addDataForm.get('ngayChamCong').setValue(this.formatDate(this.data.start));
       this.addDataForm.get('loaiLoi').setValue(this.data.title);
     }
@@ -110,6 +118,23 @@ export class GiaiTrinhComponent {
     });
   }
 
+  confirm(): void {
+    var model = {
+      giaiTrinhChamCongId: this.data.id,
+      isXacNhan: true,
+    };
+
+    this._giaitrinhchamcongService.confirm(model).subscribe(res => {
+      if (res.isSucceeded) {
+        this.openSnackBar('Thao tác thành công', 'Đóng');
+        this.onClosed.emit();
+        this.drawer.close();
+        this.clearForm();
+      } else {
+        this.openSnackBar('Thao tác thất bại', 'Đóng');
+      }
+    });
+  }
   // snackbar
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, { duration: 2000 });
@@ -124,7 +149,16 @@ export class GiaiTrinhComponent {
 
   getUserPhongBanInfo() {
     this._userService.getUserPhongBanInfo({ userId: this.userInfo.userId }).subscribe(res => {
-      this.listTruongPhong = res.phongBanBoPhan.managers;
+      this.listTruongPhong = res.phongBanBoPhan.quanLy;
     });
+  };
+
+  convertDate(isoDate) {
+    const date = new Date(isoDate);
+
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-GB', options);
+    return formattedDate;
   }
+
 }

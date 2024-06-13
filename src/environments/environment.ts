@@ -1,4 +1,4 @@
-const apiUrl = 'http://113.160.187.187:1118/';
+const apiUrl = 'https://113.160.187.187:1118/';
 const idFrontEndUrl = 'https://poiidui.vercel.app/';
 const hrmFrontEndUrl = 'https://poihrmui.vercel.app';
 

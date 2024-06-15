@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
+import { PermissionComponent } from './permission.component';
 
 export default [
     {
         path     : '',
-        component: AppComponent,
+        component: PermissionComponent,
     },
 ] as Routes;

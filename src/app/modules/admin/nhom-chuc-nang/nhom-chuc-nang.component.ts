@@ -9,33 +9,33 @@ import { RouterLink } from '@angular/router';
 import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { map } from 'rxjs';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { NewAppComponent } from './new-app/new-app.component';
-import { EditAppComponent } from './edit-app/edit-app.component';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { AppService } from 'app/services/app.service';
+import { NhomChucNangService } from 'app/services/nhomchucnang.service';
+import { AddNhomChucNangComponent } from './add-nhom-chuc-nang/add-nhomchucnang.component';
+import { EditNhomChucNangComponent } from './edit-nhom-chuc-nang/edit-nhomchucnang.component';
 
 @Component({
-  selector: 'app-app',
+  selector: 'app-nhomchucnang',
   standalone: true,
-  templateUrl: './app.component.html',
+  templateUrl: './nhom-chuc-nang.component.html',
   styles: [
     /* language=SCSS */
     `
-        .app-grid {
-            grid-template-columns: 48px auto 40px;
+        .func-grid {
+            grid-template-columns: 80px auto 80px;
 
             @screen sm {
-                grid-template-columns: 100px auto 112px;
+                grid-template-columns: 48px 200px auto 96px;
             }
 
             @screen md {
-                grid-template-columns: 100px auto 112px;
+                grid-template-columns: 48px 200px auto 96px;
             }
 
             @screen lg {
-                grid-template-columns: 48px 112px 200px auto 96px;
+                grid-template-columns: 48px 200px auto 96px;
             }
         }
     `,
@@ -43,16 +43,16 @@ import { AppService } from 'app/services/app.service';
   encapsulation: ViewEncapsulation.None,
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
-    FuseDrawerComponent, MatDividerModule, MatSidenavModule, NewAppComponent,
-    EditAppComponent],
+    FuseDrawerComponent, MatDividerModule, MatSidenavModule, AddNhomChucNangComponent,
+    EditNhomChucNangComponent, MatPaginatorModule],
 })
-export class AppComponent {
+export class NhomChucNangComponent {
 
   @ViewChild('addDrawer', { static: false }) addDrawer: FuseDrawerComponent;
   @ViewChild('paginator') paginator: MatPaginator;
   
-  apps$;
-  drawerComponent: 'new-app' | 'edit-app';
+  funcs$;
+  drawerComponent: 'new-function' | 'edit-function';
   configForm: UntypedFormGroup;
   selectedData: any;
   pageSize = 10; // Initial page size
@@ -63,7 +63,7 @@ export class AppComponent {
    */
   constructor(private _fuseConfirmationService: FuseConfirmationService,
               private _formBuilder: UntypedFormBuilder,
-              private _appService: AppService
+              private _nhomchucnangService: NhomChucNangService
   )
   {
   }
@@ -72,8 +72,8 @@ export class AppComponent {
   {
       // Build the config form
       this.configForm = this._formBuilder.group({
-          title      : 'Xóa ứng dụng',
-          message    : 'Xóa ứng dụng này khỏi hệ thống? <span class="font-medium">Thao tác này không thể hoàn tác!</span>',
+          title      : 'Xóa nhóm chức năng',
+          message    : 'Xóa nhóm chức năng này khỏi hệ thống? <span class="font-medium">Thao tác này không thể hoàn tác!</span>',
           icon       : this._formBuilder.group({
               show : true,
               name : 'heroicons_outline:exclamation-triangle',
@@ -93,11 +93,11 @@ export class AppComponent {
           dismissible: true,
       });
 
-      this.getApps();
+      this.getfuncs();
   }
 
-  addApp() {
-    this.drawerComponent = 'new-app';
+  addfunc() {
+    this.drawerComponent = 'new-function';
     this.addDrawer.open();
   }
 
@@ -108,16 +108,14 @@ export class AppComponent {
     }
   }
 
-  editApp(app: any) {
-    console.log(app);
-    this.drawerComponent = 'edit-app';
+  editfunc(func: any) {
+    console.log(func);
+    this.drawerComponent = 'edit-function';
     this.addDrawer.open();
-
-    // pass data to edit-app component
-    this.selectedData = app;
+    this.selectedData = func;
   }
 
-  deleteApp(app): void 
+  deletefunc(func): void 
   {
       // Open the dialog and save the reference of it
       const dialogRef = this._fuseConfirmationService.open(this.configForm.value);
@@ -127,27 +125,27 @@ export class AppComponent {
       {
           console.log(result);
           if(result === 'confirmed') {
-            this._appService.delete(app.id).subscribe(() => {
-              this.getApps();
+            this._nhomchucnangService.delete(func.id).subscribe(() => {
+              this.getfuncs();
             });
           }
       });
   }
 
   // get data from api
-  getApps() {
+  getfuncs() {
     const query = {
       pageNumber: this.pageNumber + 1,
       pageSize: this.pageSize
     };
-    this.apps$ = this._appService.getAll(query).pipe(
-      map((data: any) => {
-          const apps: any[] = data.items.map((app, index: number) => ({
-              ...app,
+    this.funcs$ = this._nhomchucnangService.getAll(query).pipe(
+      map((list: any) => {
+          const items: any[] = list.items.map((item, index: number) => ({
+              ...item,
               stt: index + 1
           }));
-          this.totalItems = data.count;
-          return { apps };
+          this.totalItems = list.count;
+          return { items };
       })
     );
   }
@@ -155,6 +153,6 @@ export class AppComponent {
   onPageChange(event): void {
     this.pageNumber = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.getApps();
+    this.getfuncs();
   }
 }

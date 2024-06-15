@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,64 +6,59 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { AppService } from 'app/services/app.service';
+import { FormGroup, FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { RoleService } from 'app/services/role.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FunctionService } from 'app/services/function.service';
+import { MatSelectModule } from '@angular/material/select';
+import { NhomChucNangService } from 'app/services/nhomchucnang.service';
 
 @Component({
-  selector: 'app-edit-app',
+  selector: 'app-add-nhomchucnang',
   standalone: true,
-  imports        : [MatButtonModule, MatIconModule, NgIf, NgFor, MatDividerModule,
-                    FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule,
+  imports: [MatButtonModule, MatIconModule, NgIf, NgFor, MatDividerModule,
+    FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule,
+    MatSelectModule
   ],
-  templateUrl: './edit-app.component.html'
+  templateUrl: './add-nhomchucnang.component.html'
 })
-export class EditAppComponent {
+export class AddNhomChucNangComponent {
   @Input() drawer: MatDrawer;
-  editAppForm: UntypedFormGroup;
-  @Input() data: any = {};
   @Output() onClosed = new EventEmitter<any>();
-  
+
+  addFunctionForm: UntypedFormGroup;
+
   /**
    *
    */
   constructor(private _formBuilder: UntypedFormBuilder,
-    private _appService: AppService,
+    private _nhomchucnangService: NhomChucNangService,
     private _snackBar: MatSnackBar,
-    private changeDetector: ChangeDetectorRef,
   ) {
-    this.editAppForm = this._formBuilder.group({
-      name: ['', Validators.required],
-      code: [''],
-      description: ['']
-    });    
+    this.addFunctionForm = this._formBuilder.group({
+      tenNhomChucNang: ['', Validators.required],
+      moTa: ['']
+    });
   }
 
   ngOnInit(): void {
-    this.editAppForm.patchValue(this.data);
   }
 
-  ngAfterContentChecked(): void {
-    this.changeDetector.detectChanges();
-  }
-  
   // clear form when close drawer
   clearForm(): void {
-    this.editAppForm.reset();
+    this.addFunctionForm.reset();
   }
 
   // close drawer and reset form
-  cancelEdit(): void {
+  cancelAdd(): void {
     this.drawer.close();
     this.clearForm();
-    this.data = null;
   }
 
   // save data
   save(): void {
-    this._appService.update(this.data.id, this.editAppForm.value).subscribe(res => {
+    this._nhomchucnangService.create(this.addFunctionForm.value).subscribe(res => {
       if (res.isSucceeded) {
-        // show toast
         this.openSnackBar('Thao tác thành công', 'Đóng');
         this.onClosed.emit();
         this.drawer.close();
@@ -71,11 +66,11 @@ export class EditAppComponent {
       } else {
         this.openSnackBar('Thao tác thất bại', 'Đóng');
       }
-
     });
   }
-  
+
+  // snackbar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {duration: 2000});
+    this._snackBar.open(message, action, { duration: 2000 });
   }
 }

@@ -95,6 +95,9 @@ export const appRoutes: Route[] = [
             { path: 'thiet-lap-cham-cong', component: ThietLapChamCongComponent},
             { path: 'cham-cong-diem-danh', component: ChamCongDiemDanhComponent},
             { path: 'xac-nhan-cham-cong', component: XacNhanChamCongComponent},
+            { path: 'function', loadChildren: () => import('app/modules/admin/function/function.routes')},
+            { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes')},
+            { path: 'nhom-chuc-nang', loadChildren: () => import('app/modules/admin/nhom-chuc-nang/nhom-chuc-nang.routes')},
         ]
     }
 ];

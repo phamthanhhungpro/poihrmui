@@ -21,14 +21,14 @@ import { XacNhanChamCongComponent } from './modules/admin/chamcong-diemdanh/xac-
 export const appRoutes: Route[] = [
 
     // Redirect empty path to '/example'
-    {path: '', pathMatch : 'full', redirectTo: 'admin'},
+    { path: '', pathMatch: 'full', redirectTo: 'admin' },
 
     // Redirect signed-in user to the '/example'
     //
     // After the user signs in, the sign-in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'admin'},
+    { path: 'signed-in-redirect', pathMatch: 'full', redirectTo: 'admin' },
 
     // Auth routes for guests
     {
@@ -40,11 +40,11 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.routes')},
-            {path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.routes')},
-            {path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.routes')},
-            {path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.routes')},
-            {path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.routes')}
+            { path: 'confirmation-required', loadChildren: () => import('app/modules/auth/confirmation-required/confirmation-required.routes') },
+            { path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.routes') },
+            { path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.routes') },
+            { path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.routes') },
+            { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.routes') }
         ]
     },
 
@@ -58,8 +58,8 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.routes')},
-            {path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.routes')}
+            { path: 'sign-out', loadChildren: () => import('app/modules/auth/sign-out/sign-out.routes') },
+            { path: 'unlock-session', loadChildren: () => import('app/modules/auth/unlock-session/unlock-session.routes') }
         ]
     },
 
@@ -71,7 +71,7 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes')},
+            { path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes') },
         ]
     },
 
@@ -85,19 +85,20 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
-            {path: 'admin', loadChildren: () => import('app/modules/admin/example/example.routes')},
-            {path: 'ho-so-nhan-su', component: HosonhansuComponent},
+            { path: 'admin', loadChildren: () => import('app/modules/admin/example/example.routes') },
+            { path: 'ho-so-nhan-su', component: HosonhansuComponent },
             { path: 'ho-so-nhan-su/thong-tin-chung/:id', component: ThongtinchungComponent },
-            { path: 'vai-tro', component: VaiTroComponent},
-            { path: 'vi-tri-cong-viec', component: ViTriCongViecComponent},
-            { path: 'tham-so-luong', component: ThamSoLuongComponent},
-            { path: 'cong-thuc-luong', component: CongThucLuongComponent},
-            { path: 'thiet-lap-cham-cong', component: ThietLapChamCongComponent},
-            { path: 'cham-cong-diem-danh', component: ChamCongDiemDanhComponent},
-            { path: 'xac-nhan-cham-cong', component: XacNhanChamCongComponent},
-            { path: 'function', loadChildren: () => import('app/modules/admin/function/function.routes')},
-            { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes')},
-            { path: 'nhom-chuc-nang', loadChildren: () => import('app/modules/admin/nhom-chuc-nang/nhom-chuc-nang.routes')},
+            { path: 'vai-tro', component: VaiTroComponent },
+            { path: 'vi-tri-cong-viec', component: ViTriCongViecComponent },
+            { path: 'tham-so-luong', component: ThamSoLuongComponent },
+            { path: 'cong-thuc-luong', component: CongThucLuongComponent },
+            { path: 'thiet-lap-cham-cong', component: ThietLapChamCongComponent },
+            { path: 'cham-cong-diem-danh', component: ChamCongDiemDanhComponent },
+            { path: 'xac-nhan-cham-cong', component: XacNhanChamCongComponent },
+            { path: 'function', loadChildren: () => import('app/modules/admin/function/function.routes') },
+            { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes') },
+            { path: 'nhom-chuc-nang', loadChildren: () => import('app/modules/admin/nhom-chuc-nang/nhom-chuc-nang.routes') },
+            { path: 'user', loadChildren: () => import('app/modules/admin/user/user.routes') },
         ]
     }
 ];

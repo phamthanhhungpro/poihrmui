@@ -48,6 +48,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id: 'id',
+        title: 'Thành viên',
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        children: [
+            {
+                id: 'user',
+                title: 'Thành viên',
+                type: 'basic',
+                icon: 'mat_outline:manage_accounts',
+                link: '/user'
+            },
+        ]
+    },
+    {
         id: 'bao-cao',
         title: 'Tổng hợp, báo cáo',
         type: 'group',
@@ -198,6 +213,15 @@ export const futuristicNavigation: FuseNavigationItem[] = [
     {
         id: 'ho-so',
         title: 'Hồ sơ nhân sự',
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        children: [
+
+        ]
+    },
+    {
+        id: 'id',
+        title: 'Thành viên',
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [

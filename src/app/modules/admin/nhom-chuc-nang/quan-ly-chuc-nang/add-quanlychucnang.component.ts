@@ -60,7 +60,12 @@ export class AddQuanLyChucNangComponent {
 
   // save data
   save(): void {
-    this._nhomchucnangService.create(this.addFunctionForm.value).subscribe(res => {
+    let data = {
+      nhomChucNangId: this.data.id,
+      chucNangIds: this.checkedItems
+    };
+
+    this._nhomchucnangService.assignChucNang(data).subscribe(res => {
       if (res.isSucceeded) {
         this.openSnackBar('Thao tác thành công', 'Đóng');
         this.onClosed.emit();

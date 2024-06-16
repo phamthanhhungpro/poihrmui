@@ -40,4 +40,8 @@ export class NhomChucNangService {
   assignPermission(data: any): Observable<any> {
     return this.http.post(`${baseUrl}/assign-permission`, data);
   }
+
+  assignChucNang(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/assign-chuc-nang`, data);
+  }
 }

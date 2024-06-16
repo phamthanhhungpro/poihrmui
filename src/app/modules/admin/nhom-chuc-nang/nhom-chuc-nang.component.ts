@@ -28,11 +28,11 @@ import { AddQuanLyChucNangComponent } from './quan-ly-chuc-nang/add-quanlychucna
             grid-template-columns: 80px auto 80px;
 
             @screen sm {
-                grid-template-columns: 48px 200px auto 96px;
+                grid-template-columns: 200px auto 96px;
             }
 
             @screen md {
-                grid-template-columns: 48px 200px auto 96px;
+                grid-template-columns: 200px auto 96px;
             }
 
             @screen lg {

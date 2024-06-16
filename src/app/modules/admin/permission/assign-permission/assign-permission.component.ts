@@ -7,6 +7,8 @@ import { FunctionService } from 'app/services/function.service';
 import { Observable, catchError, map, of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RoleService } from 'app/services/role.service';
+import { VaiTroService } from 'app/services/vaitro.service';
+import { NhomChucNangService } from 'app/services/nhomchucnang.service';
 
 @Component({
   selector: 'app-assign-permission',
@@ -30,10 +32,10 @@ export class AssignPermissionComponent {
    */
   constructor(
     private _formBuilder: UntypedFormBuilder,
-    private _functionService: FunctionService,
+    private _nhomchucnangService: NhomChucNangService,
     private changeDetector: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
-    private _roleService: RoleService
+    private _vaitroService: VaiTroService
   ) {
   }
 
@@ -48,13 +50,14 @@ export class AssignPermissionComponent {
 
   getFunctions() {
     this.checkedItems = [];
-    this._roleService.get(this.data.id).subscribe(
+    this._vaitroService.get(this.data.id).subscribe(
       res => {
-        let currentPermission = res.permissions;
+        let currentPermission = res.hrmNhomChucNang;
   
-        this.items = this._functionService.getAllNoPaging().pipe(
+        this.items = this._nhomchucnangService.getAllNoPaging().pipe(
           map(items => items.map(item => {
-            const checked = currentPermission.some(permission => permission.id === item.id);
+            
+            const checked = currentPermission?.some(permission => permission.id === item.id);
             if(checked) {
               this.checkedItems.push(item.id);
             }
@@ -81,7 +84,6 @@ export class AssignPermissionComponent {
       this.checkedItems.push(item.id);
     } else {
       const index = this.checkedItems.findIndex(i => i === item.id);
-      console.log(index);
       if (index !== -1) {
         this.checkedItems.splice(index, 1);
       }
@@ -90,11 +92,11 @@ export class AssignPermissionComponent {
 
   save() {
     let data = {
-      roleId: this.data.id,
-      permissionIds: this.checkedItems
+      vaiTroId: this.data.id,
+      nhomChucNangIds: this.checkedItems
     };
 
-    this._functionService.assignPermission(data).subscribe(res => {
+    this._nhomchucnangService.assignPermission(data).subscribe(res => {
       if (res.isSucceeded) {
         this.openSnackBar('Thao tác thành công', 'Đóng');
       } else {

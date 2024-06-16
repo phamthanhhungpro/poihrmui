@@ -15,6 +15,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { NhomChucNangService } from 'app/services/nhomchucnang.service';
 import { AddNhomChucNangComponent } from './add-nhom-chuc-nang/add-nhomchucnang.component';
 import { EditNhomChucNangComponent } from './edit-nhom-chuc-nang/edit-nhomchucnang.component';
+import { AddQuanLyChucNangComponent } from './quan-ly-chuc-nang/add-quanlychucnang.component';
 
 @Component({
   selector: 'app-nhomchucnang',
@@ -44,7 +45,7 @@ import { EditNhomChucNangComponent } from './edit-nhom-chuc-nang/edit-nhomchucna
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
     FuseDrawerComponent, MatDividerModule, MatSidenavModule, AddNhomChucNangComponent,
-    EditNhomChucNangComponent, MatPaginatorModule],
+    EditNhomChucNangComponent, MatPaginatorModule, AddQuanLyChucNangComponent],
 })
 export class NhomChucNangComponent {
 
@@ -52,7 +53,7 @@ export class NhomChucNangComponent {
   @ViewChild('paginator') paginator: MatPaginator;
   
   funcs$;
-  drawerComponent: 'new-function' | 'edit-function';
+  drawerComponent: 'new-function' | 'edit-function' | 'quanlychucnang';
   configForm: UntypedFormGroup;
   selectedData: any;
   pageSize = 10; // Initial page size
@@ -154,5 +155,11 @@ export class NhomChucNangComponent {
     this.pageNumber = event.pageIndex;
     this.pageSize = event.pageSize;
     this.getfuncs();
+  };
+
+  addChucnang(item): void {
+    this.drawerComponent = 'quanlychucnang';
+    this.addDrawer.open();
+    this.selectedData = item;
   }
 }

@@ -36,4 +36,8 @@ export class NhomChucNangService {
   delete(id: any): Observable<any> {
     return this.http.delete(`${baseUrl}/${id}`);
   }
+
+  assignPermission(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/assign-permission`, data);
+  }
 }

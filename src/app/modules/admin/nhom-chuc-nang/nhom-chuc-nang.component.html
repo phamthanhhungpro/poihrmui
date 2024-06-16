@@ -87,6 +87,11 @@
                                                 <span>Xóa</span>
                                             </button>
 
+                                            <button (click)="addChucnang(func)" mat-menu-item>
+                                                <mat-icon class="icon-size-4" [svgIcon]="'mat_outline:add'"></mat-icon>
+                                                <span>Quản lý chức năng</span>
+                                            </button>
+
                                         </mat-menu>
                                     </div>
                                 </div>
@@ -123,5 +128,8 @@
         <!-- Edit App -->
         <app-edit-nhomchucnang *ngIf="drawerComponent === 'edit-function'" [drawer]="addDrawer" [data]="selectedData"
             (onClosed)="getfuncs()"></app-edit-nhomchucnang>
+        <!-- Add Chucnang -->
+        <app-add-quanlychucnang *ngIf="drawerComponent === 'quanlychucnang'" [drawer]="addDrawer"  [data]="selectedData"
+            (onClosed)="getfuncs()"></app-add-quanlychucnang>
     </div>
 </fuse-drawer>

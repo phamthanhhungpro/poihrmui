@@ -25,18 +25,18 @@ import { ChucNangService } from 'app/services/chucnang.service';
     /* language=SCSS */
     `
         .func-grid {
-            grid-template-columns: 48px auto 40px;
+            grid-template-columns: 200px auto 40px;
 
             @screen sm {
-                grid-template-columns: 100px auto 112px;
+                grid-template-columns: 200px auto 112px;
             }
 
             @screen md {
-                grid-template-columns: 100px auto 112px;
+                grid-template-columns: 200px auto 112px;
             }
 
             @screen lg {
-                grid-template-columns: 48px 112px 200px auto 96px;
+                grid-template-columns: 48px 250px 200px auto 96px;
             }
         }
     `,

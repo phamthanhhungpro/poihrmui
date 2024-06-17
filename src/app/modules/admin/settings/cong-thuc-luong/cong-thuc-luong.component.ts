@@ -24,14 +24,14 @@ import { CongThucLuongService } from 'app/services/congthucluong.service';
     /* language=SCSS */
     `
         .vaitro-grid {
-            grid-template-columns: auto 96px;
+            grid-template-columns: 150px 96px;
 
             @screen sm {
                 grid-template-columns:  250px 96px;
             }
 
             @screen md {
-                grid-template-columns: 250px 96px;
+                grid-template-columns: 150px auto 96px;
             }
 
             @screen lg {

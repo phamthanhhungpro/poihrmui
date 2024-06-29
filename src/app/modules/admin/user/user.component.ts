@@ -243,4 +243,8 @@ export class UserComponent {
 
     this.addDrawer.open();
   }
+
+  goToPoiId() {
+    window.open(environment.idFrontEndUrl + 'user', '_blank');
+  }
 }

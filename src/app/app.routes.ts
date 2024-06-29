@@ -14,6 +14,9 @@ import { CongThucLuongComponent } from './modules/admin/settings/cong-thuc-luong
 import { ThietLapChamCongComponent } from './modules/admin/settings/thiet-lap-cham-cong/thiet-lap-cham-cong.component';
 import { ChamCongDiemDanhComponent } from './modules/admin/chamcong-diemdanh/chamcong-diemdanh.component';
 import { XacNhanChamCongComponent } from './modules/admin/chamcong-diemdanh/xac-nhan-cham-cong/xac-nhan-cham-cong.component';
+import { ChiNhanhComponent } from './modules/admin/settings/chi-nhanh/chi-nhanh.component';
+import { DonViComponent } from './modules/admin/settings/don-vi/don-vi.component';
+import { PhongBanBoPhanComponent } from './modules/admin/settings/phong-ban-bo-phan/phong-ban-bo-phan.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -99,6 +102,9 @@ export const appRoutes: Route[] = [
             { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes') },
             { path: 'nhom-chuc-nang', loadChildren: () => import('app/modules/admin/nhom-chuc-nang/nhom-chuc-nang.routes') },
             { path: 'user', loadChildren: () => import('app/modules/admin/user/user.routes') },
+            { path: 'phong-ban-bo-phan', component: PhongBanBoPhanComponent },
+            { path: 'don-vi', component: DonViComponent},
+            { path: 'chi-nhanh', component: ChiNhanhComponent},
         ]
     }
 ];

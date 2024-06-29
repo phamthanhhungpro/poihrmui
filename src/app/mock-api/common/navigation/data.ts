@@ -8,7 +8,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'ho-so',
         title: 'Quản lý nhân sự',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
             {
                 id: 'ho-so-nhan-su',
@@ -51,7 +51,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'id',
         title: 'Thành viên',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
             {
                 id: 'user',
@@ -66,7 +66,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'bao-cao',
         title: 'Tổng hợp, báo cáo',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
             {
                 id: 'bao-cao-nhan-su',
@@ -81,7 +81,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'permission',
         title: 'Phân quyền người dùng',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
             {
                 id: 'function',
@@ -131,14 +131,34 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'cai-dat',
         title: 'Cài đặt',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
             {
-                id: 'thong-tin-co-quan-don-vi',
-                title: 'Thông tin cơ quan đơn vị',
+                id: 'don-vi',
+                title: 'Thông tin Cơ quan - Đơn vị',
                 type: 'basic',
-                icon: 'mat_outline:arrow_drop_down',
-                link: '/thong-tin-co-quan-don-vi'
+                link: '/don-vi',
+                icon: 'mat_outline:arrow_forward',
+                hidden(item) {
+                    return false;
+                },
+            },
+            {
+                id: 'chi-nhanh',
+                title: 'Chi nhánh/Văn phòng',
+                type: 'basic',
+                link: '/chi-nhanh',
+                icon: 'mat_outline:arrow_forward',
+                hidden(item) {
+                    return false;
+                },
+            },
+            {
+                id: 'phong-ban-bo-phan',
+                title: 'Phòng/Ban/Bộ phận',
+                type: 'basic',
+                icon: 'mat_outline:arrow_forward',
+                link: '/phong-ban-bo-phan'
             },
             {
                 id: 'khu-vuc-chuyen-mon',
@@ -214,7 +234,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         id: 'ho-so',
         title: 'Hồ sơ nhân sự',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
 
         ]
@@ -223,7 +243,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         id: 'id',
         title: 'Thành viên',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
 
         ]
@@ -232,7 +252,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         id: 'bao-cao',
         title: 'Tổng hợp, báo cáo',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
         ]
     },
@@ -240,7 +260,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         id: 'permission',
         title: 'Phân quyền người dùng',
         type: 'group',
-        icon: 'heroicons_outline:home',
+        icon: 'mat_outline:arrow_drop_down',
         children: [
 
         ]

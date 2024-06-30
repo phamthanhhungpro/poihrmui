@@ -281,30 +281,26 @@ export const firstNavigation: FuseNavigationItem[] = [
         title: 'Hệ thống thông tin nhân sự',
         type: 'basic',
         icon: 'mat_outline:psychology',
-        link: 'hrm'
+        link: 'https://hrm.poi.vn/',
+        externalLink: true,
+        target: "_blank"
     },
     {
         id: 'prj',
         title: 'Hệ thống thông tin công việc',
         type: 'basic',
         icon: 'mat_outline:task',
-        link: 'prj'
+        link: 'https://prj.poi.vn/',
+        externalLink: true,
+        target: "_blank"
     },
     {
         id: 'checkin',
         title: 'Hệ thống thông tin điểm danh',
         type: 'basic',
         icon: 'mat_outline:emoji_people',
-        link: 'checkin'
-    }
-];
-
-export const horizontalNavigation: FuseNavigationItem[] = [
-    {
-        id: 'example',
-        title: 'Example',
-        type: 'basic',
-        icon: 'heroicons_outline:chart-pie',
-        link: '/example'
+        link: 'https://io.poi.vn/',
+        externalLink: true,
+        target: "_blank"
     }
 ];

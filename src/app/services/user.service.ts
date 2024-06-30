@@ -92,4 +92,8 @@ export class UserApiService {
 
     return this.http.get<any>(`${baseUrl}/phongban?${queryString}`);
   }
+
+  getUserInTenant(): Observable<any[]> {
+    return this.http.get<any[]>(`${baseUrl}/all-in-tenant`);
+  }
 }

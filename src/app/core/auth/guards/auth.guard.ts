@@ -28,6 +28,8 @@ export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
                     localStorage.setItem('role', role);
                     localStorage.setItem('userId', userId);
                     localStorage.setItem('expireDate', expireDate);
+                    
+                    router.navigateByUrl(state.url.split('?')[0]);
 
                     return of(true);
                 } else {

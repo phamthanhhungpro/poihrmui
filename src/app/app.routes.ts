@@ -17,6 +17,7 @@ import { XacNhanChamCongComponent } from './modules/admin/chamcong-diemdanh/xac-
 import { ChiNhanhComponent } from './modules/admin/settings/chi-nhanh/chi-nhanh.component';
 import { DonViComponent } from './modules/admin/settings/don-vi/don-vi.component';
 import { PhongBanBoPhanComponent } from './modules/admin/settings/phong-ban-bo-phan/phong-ban-bo-phan.component';
+import { DiemDanhThuCongComponent } from './modules/admin/diem-danh-thu-cong/diem-danh-thu-cong.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -105,6 +106,7 @@ export const appRoutes: Route[] = [
             { path: 'phong-ban-bo-phan', component: PhongBanBoPhanComponent },
             { path: 'don-vi', component: DonViComponent},
             { path: 'chi-nhanh', component: ChiNhanhComponent},
+            { path: 'diem-danh-thu-cong', component: DiemDanhThuCongComponent},
         ]
     }
 ];

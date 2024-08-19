@@ -40,4 +40,8 @@ export class ChamCongDiemDanhService {
   getDataByUserId(userId: any, data: any): Observable<any> {
     return this.http.get(`${baseUrl}/${userId}?${objectToQueryString(data)}`);
   }
+
+  checkInThuCong(data: any): Observable<any> {
+    return this.http.post(`${baseUrl}/diem-danh-thu-cong`, data);
+  }
 }

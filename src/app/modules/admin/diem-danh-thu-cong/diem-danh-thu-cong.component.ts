@@ -5,11 +5,15 @@ import { UserApiService } from 'app/services/user.service';
 import { ChamCongDiemDanhService } from 'app/services/chamcongdiemdanh.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SearchableSelectComponent } from 'app/common/components/select-search/searchable-select.component';
+import { CongKhaiBaoService } from 'app/services/congkhaibao.service';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-diem-danh-thu-cong',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatSelectModule],
+  imports: [CommonModule, MatIconModule, MatSelectModule, SearchableSelectComponent, FormsModule, MatInputModule],
   templateUrl: './diem-danh-thu-cong.component.html',
 })
 export class DiemDanhThuCongComponent {
@@ -24,14 +28,23 @@ export class DiemDanhThuCongComponent {
   listTruongPhong = [];
   nguoiXacNhanId;
 
+  listCongKhaiBao = [];
+  congKhaiBaoId;
+
+  // ngModel
+  lyDo;
+  ghiChu;
+
   constructor(private _userService: UserApiService,
     private _chamCongDiemDanhService: ChamCongDiemDanhService,
-    private _matSnackBar: MatSnackBar
+    private _matSnackBar: MatSnackBar,
+    private _congKhaiBaoService: CongKhaiBaoService
   ) { }
 
   ngOnInit(): void {
     this.getCurrentUser();
     this.getUserPhongBanInfo();
+    this.getCongKhaiBao();
   }
 
   getCurrentUser() {
@@ -40,10 +53,19 @@ export class DiemDanhThuCongComponent {
     })
   }
 
+  getCongKhaiBao() {
+    this._congKhaiBaoService.getAllNoPaging().subscribe(res => {
+      this.listCongKhaiBao = res.map(item => { return { key: item.id, value: item.tenCongKhaiBao } });
+    });
+  }
+
   checkInThuCong() {
     let data = {
       userId: this.userInfo.userId,
-      nguoiXacNhanId: this.nguoiXacNhanId
+      nguoiXacNhanId: this.nguoiXacNhanId,
+      congKhaiBaoId: this.congKhaiBaoId,
+      lyDo: this.lyDo,
+      ghiChu: this.ghiChu
     };
 
     this._chamCongDiemDanhService.checkInThuCong(data).subscribe(res => {
@@ -67,5 +89,9 @@ export class DiemDanhThuCongComponent {
     this._matSnackBar.open(message, action, {
       duration: 2000,
     });
+  }
+
+  setCongKhaiBao(event) {
+    this.congKhaiBaoId = event;
   }
 }

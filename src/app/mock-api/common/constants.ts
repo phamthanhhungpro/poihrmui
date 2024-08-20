@@ -7,6 +7,9 @@ export class Constants {
     static readonly ROLE_APPADMIN = 'APPADMIN';
     static readonly ROLE_ADMIN = 'ADMIN';
     static readonly ROLE_MEMBER = 'MEMBER';
+
+    static readonly APP_CODE = 'HRM';
+
 }
 
 export enum TrangThai {

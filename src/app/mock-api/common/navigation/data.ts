@@ -139,6 +139,110 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ]
     },
     {
+        id: 'permission',
+        title: 'Phân quyền người dùng',
+        type: 'group',
+        icon: 'mat_outline:arrow_drop_down',
+        children: [
+            {
+                id: 'function1',
+                title: 'API endpoints',
+                type: 'basic',
+                icon: '',
+                link: '/endpoints',
+                hidden(item) {
+                    // always hide this item if role is not SSA
+                    if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+            {
+                id: 'function2',
+                title: 'Chức năng',
+                type: 'basic',
+                icon: '',
+                link: '/functions',
+                hidden(item) {
+                    // always hide this item if role is not SSA
+                    if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+            // {
+            //     id: 'function3',
+            //     title: 'Nhóm chức năng',
+            //     type: 'basic',
+            //     icon: '',
+            //     link: '/group-functions',
+            //     hidden(item) {
+            //         // always hide this item if role is not SSA
+            //         if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
+            //             return true;
+            //         }
+            //         return false;
+            //     },
+            // },
+            // {
+            //     id: 'function4',
+            //     title: 'Phạm vi chức năng',
+            //     type: 'basic',
+            //     icon: '',
+            //     link: '/scopes',
+            //     hidden(item) {
+            //         // always hide this item if role is not SSA
+            //         if (localStorage.getItem('role') !== Constants.ROLE_SSA) {
+            //             return true;
+            //         }
+            //         return false;
+            //     },
+            // },
+            {
+                id: 'system-role',
+                title: 'Vai trò hệ thống',
+                type: 'basic',
+                icon: 'mat_solid:verified_user',
+                link: '/system-role',
+                hidden(item) {
+                    if (!isAllowSetPermission(localStorage.getItem('role'))) {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+            {
+                id: 'assign-permission',
+                title: 'Phân quyền chức năng',
+                type: 'basic',
+                icon: 'mat_solid:verified_user',
+                link: '/permission',
+                hidden(item) {
+                    if (!isAllowSetPermission(localStorage.getItem('role'))) {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+            {
+                id: 'user-role',
+                title: 'Gán vai trò cho người dùng',
+                type: 'basic',
+                icon: 'mat_solid:verified_user',
+                link: '/user-role',
+                hidden(item) {
+                    if (!isAllowSetPermission(localStorage.getItem('role'))) {
+                        return true;
+                    }
+                    return false;
+                },
+            },
+
+        ]
+    },
+    {
         id: 'cai-dat',
         title: 'Cài đặt',
         type: 'group',
@@ -189,12 +293,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
             //     icon: 'mat_outline:arrow_drop_down',
             //     link: '/chuc-danh'
             // },
-            {
-                id: 'vai-tro',
-                title: 'Vai trò',
-                type: 'basic',
-                link: '/vai-tro'
-            },
+            // {
+            //     id: 'vai-tro',
+            //     title: 'Vai trò',
+            //     type: 'basic',
+            //     link: '/vai-tro'
+            // },
             // {
             //     id: 'vi-tri-cong-viec',
             //     title: 'Vị trí công việc',

@@ -1,6 +1,7 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:pt-6 sm:px-10 bg-default dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:pt-6 sm:px-10 bg-default dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
@@ -36,7 +37,7 @@
         <div class="w-full flex justify-center mt-8">
             <div class="w-full max-w-3xl">
                 <!-- User Info -->
-                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-md" >
                     <div class="flex items-center">
                         <div>
                             <h3 class="text-lg font-bold">{{ currentUser.fullName }}</h3>
@@ -48,10 +49,27 @@
                         <h4 class="font-semibold">Thời gian điểm danh</h4>
                         <p class="text-xl text-primary-500">{{ currentDate | date:'dd/MM/yyyy HH:mm' }}</p>
                     </div>
+                    <div class="mt-2 w-full">
+                        <app-searchable-select *ngIf="listCongKhaiBao.length > 0"
+                            customClass="fuse-mat-dense" [options]="listCongKhaiBao" [label]="'Công khai báo'"
+                            placeholder="Chọn công khai báo" (selectionChange)="setCongKhaiBao($event)"
+                            [multiple]="false">
+                        </app-searchable-select>
 
-                    <!-- Người xác nhận mat-select -->
-                    <div class="mt-6">
-                        <mat-form-field appearance="fill" class="w-1/3 fuse-mat-dense">
+                        <!-- Lý do -->
+                        <mat-form-field appearance="fill" class="w-full fuse-mat-dense">
+                            <mat-label>Lý do</mat-label>
+                            <textarea matInput [(ngModel)]="lyDo"></textarea>
+                        </mat-form-field>
+
+                        <!-- Ghi chú -->
+                        <mat-form-field appearance="fill" class="w-full fuse-mat-dense">
+                            <mat-label>Ghi chú</mat-label>
+                            <textarea matInput [(ngModel)]="ghiChu" ></textarea>
+                        </mat-form-field>
+
+
+                        <mat-form-field appearance="fill" class="w-full fuse-mat-dense">
                             <mat-label>Người xác nhận</mat-label>
                             <mat-select [(value)]="nguoiXacNhanId">
                                 <mat-option *ngFor="let verifier of listTruongPhong" [value]="verifier.id">
@@ -64,7 +82,8 @@
 
                 <!-- Check-in Button -->
                 <div class="mt-6 flex justify-center">
-                    <button (click)="checkInThuCong()" class="bg-primary-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-600">
+                    <button (click)="checkInThuCong()"
+                        class="bg-primary-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary-600">
                         Điểm danh
                     </button>
                 </div>

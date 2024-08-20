@@ -12,13 +12,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { CongKhaiBaoService } from 'app/services/congkhaibao.service';
 import { UserApiService } from 'app/services/user.service';
 import { GiaiTrinhChamCongService } from 'app/services/giaitrinhchamcong.service';
+import { SearchableSelectComponent } from 'app/common/components/select-search/searchable-select.component';
 
 @Component({
   selector: 'app-giai-trinh',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatIconModule, NgIf, NgFor, MatDividerModule,
     FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatFormFieldModule,
-    MatSelectModule],
+    MatSelectModule, SearchableSelectComponent],
   templateUrl: './giai-trinh.component.html',
 })
 export class GiaiTrinhComponent {
@@ -37,7 +38,12 @@ export class GiaiTrinhComponent {
     role: localStorage.getItem('role'),
     tenantId: localStorage.getItem('tenantId'),
     userId: localStorage.getItem('userId')
-  }
+  };
+
+  listCongKhaiBaoOptions = [];
+  congXacNhanId;
+  congKhaiBaoId;
+
   /**
    *
    */
@@ -53,6 +59,7 @@ export class GiaiTrinhComponent {
       congKhaiBaoId: [''],
       lyDo: [''],
       nguoiXacNhan: [''],
+      ghiChu : [''],
     });
   }
 
@@ -67,8 +74,11 @@ export class GiaiTrinhComponent {
       this.addDataForm.get('loaiLoi').setValue(this.data.hrmChamCongDiemDanh.hrmTrangThaiChamCong.tenTrangThai);
       this.addDataForm.get('congKhaiBaoId').setValue(this.data.hrmCongKhaiBao.id);
       this.addDataForm.get('lyDo').setValue(this.data.lyDo);
+      this.addDataForm.get('ghiChu').setValue(this.data.ghiChu);
+      this.congKhaiBaoId = this.data.hrmCongKhaiBao.id;
 
-
+      this.congXacNhanId = this.data.hrmCongKhaiBao.id;
+      this.addDataForm.get('nguoiXacNhan').disable();
     };
 
     if (this.type !== 'xac-nhan-giai-trinh') {
@@ -101,8 +111,9 @@ export class GiaiTrinhComponent {
   save(): void {
     var model = {
       chamCongDiemDanhId : this.data.id,
-      congKhaiBaoId: this.addDataForm.get('congKhaiBaoId').value,
+      congKhaiBaoId: this.congKhaiBaoId,
       lyDo: this.addDataForm.get('lyDo').value,
+      ghiChu: this.addDataForm.get('ghiChu').value,
       nguoiXacNhan: this.addDataForm.get('nguoiXacNhan').value,
     };
     
@@ -122,6 +133,7 @@ export class GiaiTrinhComponent {
     var model = {
       giaiTrinhChamCongId: this.data.id,
       isXacNhan: true,
+      congXacNhanId: this.congXacNhanId
     };
 
     this._giaitrinhchamcongService.confirm(model).subscribe(res => {
@@ -144,6 +156,7 @@ export class GiaiTrinhComponent {
   getCongKhaiBao() {
     this._congkhaibaoService.getAllNoPaging().subscribe(res => {
       this.congKhaiBaos = res;
+      this.listCongKhaiBaoOptions = res.map(item => { return { key: item.id, value: item.tenCongKhaiBao } });
     });
   }
 
@@ -156,9 +169,19 @@ export class GiaiTrinhComponent {
   convertDate(isoDate) {
     const date = new Date(isoDate);
 
-    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' };
     const formattedDate = date.toLocaleDateString('en-GB', options);
     return formattedDate;
   }
 
+  setCongXacNhan(event) {
+    this.congXacNhanId = event;
+  }
+  setCongKhaiBao(event) {
+    this.congKhaiBaoId = event;
+  }
+
+  checkDisableForm() {
+    return this.type === 'xac-nhan-giai-trinh'; 
+  }
 }

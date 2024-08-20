@@ -39,7 +39,7 @@
                 </div>
 
 
-                <div class="flex flex-col ">
+                <!-- <div class="flex flex-col ">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
@@ -107,7 +107,7 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> -->
                 <div class="flex">
                     <p class="text-2xl font-semibold">Xác nhận chấm công</p>
                 </div>
@@ -118,7 +118,7 @@
                     </mat-form-field>
 
                 </div> -->
-                <div class="flex">
+                <!-- <div class="flex">
                     <mat-form-field class="flex-auto">
                         <mat-label>Công khai báo</mat-label>
                         <mat-select [formControlName]="'congKhaiBaoId'">
@@ -127,23 +127,41 @@
                             }
                         </mat-select>
                     </mat-form-field>
+                </div> -->
+                <div class="mt-2">
+                    <app-searchable-select *ngIf="listCongKhaiBaoOptions.length > 0" [selectedValue] = "congKhaiBaoId"
+                        [options]="listCongKhaiBaoOptions" [label]="'Công khai báo'" placeholder="Chọn công khai báo"
+                        (selectionChange)="setCongKhaiBao($event)" [multiple]="false" [disabled]="checkDisableForm()">
+                    </app-searchable-select>
+
+                    <app-searchable-select *ngIf="listCongKhaiBaoOptions.length > 0 && checkDisableForm()" [selectedValue] = "congXacNhanId"
+                        [options]="listCongKhaiBaoOptions" [label]="'Công xác nhận'" placeholder="Chọn công xác nhận"
+                        (selectionChange)="setCongXacNhan($event)" [multiple]="false">
+                    </app-searchable-select>
                 </div>
+
                 <div class="flex">
                     <mat-form-field class="flex-auto">
                         <mat-label>Lý do</mat-label>
-                        <textarea matInput formControlName="lyDo"></textarea>
+                        <textarea matInput formControlName="lyDo" [readonly]="checkDisableForm()"></textarea>
                     </mat-form-field>
                 </div>
                 <div class="flex">
                     <mat-form-field class="flex-auto">
-                      <mat-label>Người xác nhận</mat-label>
-                      <mat-select [formControlName]="'nguoiXacNhan'">
-                        <mat-option *ngFor="let truongPhong of listTruongPhong" [value]="truongPhong.id">
-                          {{ truongPhong.fullName }}
-                        </mat-option>
-                      </mat-select>
+                        <mat-label>Ghi chú</mat-label>
+                        <textarea matInput formControlName="ghiChu" [readonly]="checkDisableForm()"></textarea>
                     </mat-form-field>
-                  </div>
+                </div>
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <mat-label>Người xác nhận</mat-label>
+                        <mat-select [formControlName]="'nguoiXacNhan'">
+                            <mat-option *ngFor="let truongPhong of listTruongPhong" [value]="truongPhong.id">
+                                {{ truongPhong.fullName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
         </form>
 

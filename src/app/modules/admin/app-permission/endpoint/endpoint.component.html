@@ -1,11 +1,12 @@
 <div class="sm:absolute sm:inset-0 flex flex-col flex-auto min-w-0 sm:overflow-hidden bg-card dark:bg-transparent">
     <!-- Header -->
-    <div class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-6 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
+    <div
+        class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 pb-22 sm:pt-6 sm:pb-20 sm:px-10 bg-default dark:bg-transparent">
         <div class="flex-1 min-w-0">
             <!-- Title -->
             <div class="mt-2">
                 <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    Danh sách Chi nhánh/Văn phòng
+                    Danh sách Endpoint
                 </h2>
             </div>
             <!-- Breadcrumbs -->
@@ -17,11 +18,11 @@
                     <div class="flex items-center ml-1 whitespace-nowrap">
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_mini:chevron-right'"></mat-icon>
-                        <span class="ml-1 text-secondary">Chi nhánh/Văn phòng</span>
+                        <span class="ml-1 text-secondary">Endpoint</span>
                     </div>
                 </div>
                 <div class="flex sm:hidden">
-                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'../'">
+                    <a class="inline-flex items-center -ml-1.5 text-secondary font-medium" [routerLink]="'./..'">
                         <mat-icon class="icon-size-5 text-secondary"
                             [svgIcon]="'heroicons_solid:chevron-left'"></mat-icon>
                         <span class="ml-1">Back</span>
@@ -31,9 +32,9 @@
         </div>
         <!-- Actions -->
         <div class="flex shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
-            <button mat-flat-button [color]="'primary'" (click)="goToPoiId()">
-                <mat-icon class="icon-size-4" [svgIcon]="'mat_outline:manage_accounts'"></mat-icon>
-                <span class="ml-2">Quản lý</span>
+            <button mat-flat-button [color]="'primary'" (click)="addfunc()">
+                <mat-icon class="icon-size-4" [svgIcon]="'mat_outline:add'"></mat-icon>
+                <span class="ml-2">Thêm mới</span>
             </button>
         </div>
     </div>
@@ -43,50 +44,40 @@
 
         <!-- CONTENT GOES HERE -->
         <div class="flex flex-col flex-auto sm:mb-18 overflow-hidden sm:overflow-y-auto">
-            <ng-container *ngIf="(data$ | async) as data">
-                <ng-container *ngIf="data.items.length > 0; else nodata">
+            <ng-container *ngIf="(funcs$ | async) as data">
+                <ng-container *ngIf="data.items.length > 0; else noData">
                     <div class="grid">
                         <!-- Header -->
-                        <div class="donvi-grid z-10 sticky top-0 grid gap-10 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
+                        <div class="func-grid z-10 sticky top-0 grid gap-10 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5"
                             matSort matSortDisableClear>
                             <div class="hidden lg:block">STT</div>
 
-                            <div>Tên Chi nhánh/văn phòng</div>
-                            <div class="hidden md:block">Địa chỉ</div>
-                            <div class="hidden md:block">Số điện thoại</div>
-                            <div class="hidden md:block">Địa chỉ Email</div>
-                            <div class="hidden lg:block">Mô tả</div>
+                            <div>Tên API</div>
 
-                            <!-- <div>Thao tác</div> -->
+                            <div>Phương thức</div>
+                            <div class="hidden lg:block">Đường dẫn</div>
+                            <!-- <div class="hidden lg:block">Mô tả</div> -->
+                            <div class="">Thao tác</div>
                         </div>
                         <!-- Rows -->
-                        <ng-container *ngIf="(data$ | async) as data">
-                            <ng-container *ngFor="let model of data.items; trackBy: trackByFn">
-                                <div class="donvi-grid grid items-center gap-10 py-3 px-6 md:px-8 border-b">
+                        <ng-container *ngIf="(funcs$ | async) as data">
+                            <ng-container *ngFor="let func of data.items; trackBy: trackByFn">
+                                <div class="func-grid grid items-center gap-10 py-3 px-6 md:px-8 border-b">
                                     <div class="hidden lg:block">
-                                        {{model.stt}}
+                                        {{func.stt}}
                                     </div>
                                     <div>
-                                        {{model.name}}
+                                        {{func.name}}
                                     </div>
-                                    <div class="hidden md:block">
-                                        {{model.address}}
+                                    <div>
+                                        {{func.method}}
                                     </div>
-                                    <div class="hidden md:block">
-                                        {{model.phone}}
-                                    </div>
-
-                                    <div class="hidden md:block">
-                                        {{model.email}}
-                                    </div>
-
-                                    
                                     <div class="hidden lg:block">
-                                        {{model.description}}
+                                        {{func.path}}
                                     </div>
 
-                                    <!-- <div class="">
-                                        <button mat-icon-button (click)="editData(model)">
+                                    <div>
+                                        <button mat-icon-button (click)="editfunc(func)">
                                             <mat-icon class="icon-size-5"
                                                 [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
                                         </button>
@@ -95,41 +86,45 @@
                                             <mat-icon class="icon-size-5" [svgIcon]="'mat_solid:more_vert'"></mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
-                                            <button (click)="delData(model)" mat-menu-item>
+                                            <button (click)="deletefunc(func)" mat-menu-item>
                                                 <mat-icon class="icon-size-4" [svgIcon]="'heroicons_solid:trash'"></mat-icon>
                                                 <span>Xóa</span>
                                             </button>
 
                                         </mat-menu>
-                                    </div> -->
+                                    </div>
                                 </div>
-
                             </ng-container>
                         </ng-container>
                     </div>
 
+                    <mat-paginator #paginator
+                        class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+                        [ngClass]="{'pointer-events-none': isLoading}" [length]="totalItems" [pageSize]="pageSize"
+                        [pageIndex]="pageNumber" [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"
+                        (page)="onPageChange($event)">
+                    </mat-paginator>
+
                 </ng-container>
             </ng-container>
 
-            <ng-template #nodata>
-                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">Không có dữ liệu</div>
+            <ng-template #noData>
+                <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">No data!</div>
             </ng-template>
 
         </div>
+
     </div>
 </div>
 
 <fuse-drawer class="w-screen min-w-screen sm:w-140 sm:min-w-140 z-999" fixed [mode]="'over'" [name]="'addDrawer'"
     [position]="'right'" [opened]="false" (openedChanged)="drawerOpenedChanged($event)" #addDrawer>
     <div class="flex flex-col w-full overflow-auto bg-card">
-        <!-- add data component -->
-        <ng-container *ngIf="drawerComponent === 'new-data'">
-            <app-create-chinhanh [drawer]="addDrawer" (onClosed)="getTableData()"></app-create-chinhanh>
-        </ng-container>
-        <!-- edit data component -->
-        <ng-container *ngIf="drawerComponent === 'edit-data'">
-            <app-edit-chinhanh [drawer]="addDrawer" [data]="selectedData" (onClosed)="getTableData()"></app-edit-chinhanh>
-        </ng-container>
-
+        <!-- New App -->
+        <app-create-endpoint *ngIf="drawerComponent === 'new-function'" [drawer]="addDrawer"
+            (onClosed)="getfuncs()"></app-create-endpoint>
+        <!-- Edit App -->
+        <app-edit-endpoint *ngIf="drawerComponent === 'edit-function'" [drawer]="addDrawer" [data]="selectedData"
+            (onClosed)="getfuncs()"></app-edit-endpoint>
     </div>
 </fuse-drawer>

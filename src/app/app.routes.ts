@@ -18,6 +18,13 @@ import { ChiNhanhComponent } from './modules/admin/settings/chi-nhanh/chi-nhanh.
 import { DonViComponent } from './modules/admin/settings/don-vi/don-vi.component';
 import { PhongBanBoPhanComponent } from './modules/admin/settings/phong-ban-bo-phan/phong-ban-bo-phan.component';
 import { DiemDanhThuCongComponent } from './modules/admin/diem-danh-thu-cong/diem-danh-thu-cong.component';
+import { ChucNangComponent } from './modules/admin/app-permission/chuc-nang/chuc-nang.component';
+import { EndpointComponent } from './modules/admin/app-permission/endpoint/endpoint.component';
+import { NhomChucNangHeThongComponent } from './modules/admin/app-permission/nhom-chuc-nang/nhom-chuc-nang.component';
+import { PhanQuyenChucNangComponent } from './modules/admin/app-permission/phan-quyen-chuc-nang/phan-quyen-chuc-nang.component';
+import { ScopeComponent } from './modules/admin/app-permission/scope/scope.component';
+import { UserVaiTroComponent } from './modules/admin/app-permission/user-vai-tro/user-vai-tro.component';
+import { VaiTroHeThongComponent } from './modules/admin/app-permission/vai-tro-he-thong/vai-tro-he-thong.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -100,13 +107,22 @@ export const appRoutes: Route[] = [
             { path: 'cham-cong-diem-danh', component: ChamCongDiemDanhComponent },
             { path: 'xac-nhan-cham-cong', component: XacNhanChamCongComponent },
             { path: 'function', loadChildren: () => import('app/modules/admin/function/function.routes') },
-            { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes') },
+            // { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes') },
             { path: 'nhom-chuc-nang', loadChildren: () => import('app/modules/admin/nhom-chuc-nang/nhom-chuc-nang.routes') },
             { path: 'user', loadChildren: () => import('app/modules/admin/user/user.routes') },
             { path: 'phong-ban-bo-phan', component: PhongBanBoPhanComponent },
-            { path: 'don-vi', component: DonViComponent},
-            { path: 'chi-nhanh', component: ChiNhanhComponent},
-            { path: 'diem-danh-thu-cong', component: DiemDanhThuCongComponent},
+            { path: 'don-vi', component: DonViComponent },
+            { path: 'chi-nhanh', component: ChiNhanhComponent },
+            { path: 'diem-danh-thu-cong', component: DiemDanhThuCongComponent },
+
+            // Phân quyền chức năng
+            { path: 'endpoints', component: EndpointComponent },
+            { path: 'functions', component: ChucNangComponent },
+            { path: 'group-functions', component: NhomChucNangHeThongComponent },
+            { path: 'scopes', component: ScopeComponent },
+            { path: 'permission', component: PhanQuyenChucNangComponent },
+            { path: 'user-role', component: UserVaiTroComponent },
+            { path: 'system-role', component: VaiTroHeThongComponent },
         ]
     }
 ];

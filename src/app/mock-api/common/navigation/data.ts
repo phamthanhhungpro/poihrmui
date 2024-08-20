@@ -55,6 +55,12 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'Xác nhận chấm công',
                 type: 'basic',
                 link: '/xac-nhan-cham-cong'
+            },
+            {
+                id: 'bang-cham-cong',
+                title: 'Tổng hợp chấm công',
+                type: 'basic',
+                link: '/bang-cham-cong'
             }
         ]
     },

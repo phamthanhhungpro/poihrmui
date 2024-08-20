@@ -25,6 +25,7 @@ import { PhanQuyenChucNangComponent } from './modules/admin/app-permission/phan-
 import { ScopeComponent } from './modules/admin/app-permission/scope/scope.component';
 import { UserVaiTroComponent } from './modules/admin/app-permission/user-vai-tro/user-vai-tro.component';
 import { VaiTroHeThongComponent } from './modules/admin/app-permission/vai-tro-he-thong/vai-tro-he-thong.component';
+import { BangChamCongComponent } from './modules/admin/bang-cham-cong/bang-cham-cong.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -114,7 +115,7 @@ export const appRoutes: Route[] = [
             { path: 'don-vi', component: DonViComponent },
             { path: 'chi-nhanh', component: ChiNhanhComponent },
             { path: 'diem-danh-thu-cong', component: DiemDanhThuCongComponent },
-
+            { path: 'bang-cham-cong', component: BangChamCongComponent },
             // Phân quyền chức năng
             { path: 'endpoints', component: EndpointComponent },
             { path: 'functions', component: ChucNangComponent },

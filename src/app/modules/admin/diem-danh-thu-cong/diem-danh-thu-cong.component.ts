@@ -35,6 +35,8 @@ export class DiemDanhThuCongComponent {
   lyDo;
   ghiChu;
 
+  phongbanInfo: any = {};
+
   constructor(private _userService: UserApiService,
     private _chamCongDiemDanhService: ChamCongDiemDanhService,
     private _matSnackBar: MatSnackBar,
@@ -82,6 +84,7 @@ export class DiemDanhThuCongComponent {
   getUserPhongBanInfo() {
     this._userService.getUserPhongBanInfo({ userId: this.userInfo.userId }).subscribe(res => {
       this.listTruongPhong = res.phongBanBoPhan.quanLy;
+      this.phongbanInfo = res.phongBanBoPhan;
     });
   };
 

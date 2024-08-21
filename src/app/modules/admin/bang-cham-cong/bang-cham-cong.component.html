@@ -51,13 +51,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let employee of employees; let i = index" class="odd:bg-gray-100 even:bg-gray-200">
+                <tr *ngFor="let employee of employees; let i = index"
+                    class="odd:bg-gray-100 even:bg-gray-200 hover:bg-gray-300 cursor-pointer transition-colors duration-200"
+                    (click)="detailChamCong(employee)">
                     <td class="px-4 py-2 border text-center">{{ i + 1 }}</td>
-                    <td class="px-6 py-2 border text-left w-1/4">{{ employee.name }}</td>
+                    <td class="px-6 py-2 border text-left w-1/4">{{ employee.fullName }} ({{ '@' + employee.userName }})
+                    </td>
                     <!-- Generate cells dynamically -->
                     <td *ngFor="let day of daysInMonth" class="px-2 py-2 border text-center">{{ employee.days[day - 1]
-                        || '' }}</td>
+                        }}</td>
                 </tr>
+
             </tbody>
         </table>
     </div>

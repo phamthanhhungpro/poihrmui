@@ -106,6 +106,8 @@ export const appRoutes: Route[] = [
             { path: 'cong-thuc-luong', component: CongThucLuongComponent },
             { path: 'thiet-lap-cham-cong', component: ThietLapChamCongComponent },
             { path: 'cham-cong-diem-danh', component: ChamCongDiemDanhComponent },
+            { path: 'cham-cong-diem-danh/:id', component: ChamCongDiemDanhComponent },
+
             { path: 'xac-nhan-cham-cong', component: XacNhanChamCongComponent },
             { path: 'function', loadChildren: () => import('app/modules/admin/function/function.routes') },
             // { path: 'permission', loadChildren: () => import('app/modules/admin/permission/permission.routes') },
@@ -116,6 +118,7 @@ export const appRoutes: Route[] = [
             { path: 'chi-nhanh', component: ChiNhanhComponent },
             { path: 'diem-danh-thu-cong', component: DiemDanhThuCongComponent },
             { path: 'bang-cham-cong', component: BangChamCongComponent },
+
             // Phân quyền chức năng
             { path: 'endpoints', component: EndpointComponent },
             { path: 'functions', component: ChucNangComponent },

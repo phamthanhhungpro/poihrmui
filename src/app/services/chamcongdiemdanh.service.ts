@@ -44,4 +44,12 @@ export class ChamCongDiemDanhService {
   checkInThuCong(data: any): Observable<any> {
     return this.http.post(`${baseUrl}/diem-danh-thu-cong`, data);
   }
+
+  getBangChamCong(data:any): Observable<any> {
+    return this.http.post(`${baseUrl}/bang-cham-cong`, data);
+  }
+
+  getDetail(data:any): Observable<any> {
+    return this.http.get(`${baseUrl}/detail?${objectToQueryString(data)}`);
+  }
 }

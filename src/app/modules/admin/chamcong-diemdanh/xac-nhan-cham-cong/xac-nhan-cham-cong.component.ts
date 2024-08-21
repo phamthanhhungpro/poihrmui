@@ -18,13 +18,14 @@ import { Subject, takeUntil, map } from 'rxjs';
 import { HosonhansuService } from 'app/services/hosonhansu.service';
 import { GiaiTrinhChamCongService } from 'app/services/giaitrinhchamcong.service';
 import { GiaiTrinhComponent } from '../giai-trinh/giai-trinh.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-xacnhanchamcong',
   standalone: true,
   imports: [MatIconModule, RouterLink, MatButtonModule, CdkScrollable, NgIf,
     AsyncPipe, NgForOf, CurrencyPipe, MatButtonModule, MatMenuModule,
-    FuseDrawerComponent, MatDividerModule, MatSidenavModule, MatPaginatorModule, GiaiTrinhComponent],
+    FuseDrawerComponent, MatDividerModule, MatSidenavModule, MatPaginatorModule, GiaiTrinhComponent, MatTooltipModule],
   templateUrl: './xac-nhan-cham-cong.component.html'
 })
 export class XacNhanChamCongComponent {

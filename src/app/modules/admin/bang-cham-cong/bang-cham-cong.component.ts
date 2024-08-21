@@ -6,6 +6,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChamCongDiemDanhService } from 'app/services/chamcongdiemdanh.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bang-cham-cong',
@@ -38,8 +40,16 @@ export class BangChamCongComponent implements OnInit {
   daysInMonth: number[] = [];
   selectedMonth: Date = new Date(); // Default to the current month
   readonly date = new FormControl();
+
+  /**
+   *
+   */
+  constructor(private _chamCongDiemDanhService: ChamCongDiemDanhService, private router: Router) {
+
+  }
   ngOnInit(): void {
     this.generateDaysInMonth(this.selectedMonth);
+    this.getBangChamCong();
   }
 
   generateDaysInMonth(date: Date): void {
@@ -49,16 +59,28 @@ export class BangChamCongComponent implements OnInit {
     this.daysInMonth = Array.from({ length: daysInMonth }, (_, i) => i + 1); // Create an array [1, 2, ..., daysInMonth]
   }
 
-  onMonthSelected(date: Date): void {
-    this.selectedMonth = date;
-    this.generateDaysInMonth(this.selectedMonth);
-    // Here you can also reload employee data based on the selected month
-  }
-
   setMonthAndYear(date: Date, datepicker) {
-    this.selectedMonth = date;
+    // gain 24h to the date to avoid timezone issue
+    let newdate = new Date(date.getTime() + 24 * 60 * 60 * 1000);
+    this.selectedMonth = newdate;
     this.date.setValue(date);
     this.generateDaysInMonth(this.selectedMonth);
+    this.getBangChamCong();
     datepicker.close();
+  }
+
+  getBangChamCong() {
+    let data = {
+      userId: localStorage.getItem('userId'),
+      time: this.selectedMonth
+    }
+    this._chamCongDiemDanhService.getBangChamCong(data).subscribe(res => {
+      this.employees = res;
+    });
+  };
+
+  detailChamCong(employee) {
+    // navigate to cham-cong-diem-danh/:id
+    this.router.navigate(['/cham-cong-diem-danh', employee.userId]);
   }
 }

@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { FuseDrawerComponent } from '@fuse/components/drawer';
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -18,6 +18,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { ChamCongDiemDanhService } from 'app/services/chamcongdiemdanh.service';
 import { TrangThai, TrangThaiLabel } from 'app/mock-api/common/constants';
 import { GiaiTrinhComponent } from './giai-trinh/giai-trinh.component';
+import { UserApiService } from 'app/services/user.service';
 
 @Component({
   selector: 'app-chamcong-diemdanh',
@@ -43,18 +44,29 @@ export class ChamCongDiemDanhComponent {
     tenantId: localStorage.getItem('tenantId'),
     userId: localStorage.getItem('userId')
   }
+
+  requestUserID = this.userInfo.userId;
+  user: any;
   @ViewChild('fullCalendar') calendarComponent: FullCalendarComponent;
   /**
    * Constructor
    */
-  constructor(private _fuseConfirmationService: FuseConfirmationService,
-    private _formBuilder: UntypedFormBuilder,
-    private _chamcongdiemdanhService: ChamCongDiemDanhService,
-    private cdr: ChangeDetectorRef
+  constructor(
+              private _chamcongdiemdanhService: ChamCongDiemDanhService,
+              private cdr: ChangeDetectorRef,
+              private route: ActivatedRoute,
+              private userApiService: UserApiService,
   ) {
   }
 
   ngOnInit(): void {
+    // get id from url
+    if(this.route.snapshot.paramMap.get('id')) {
+      this.requestUserID = this.route.snapshot.paramMap.get('id');
+    }
+    this.userApiService.get(this.requestUserID).subscribe((data) => {
+      this.user = data;
+    });
     this.initCalendar();
   }
 
@@ -62,19 +74,9 @@ export class ChamCongDiemDanhComponent {
 
   }
 
-  addData() {
-    this.drawerComponent = 'new-data';
-    this.addDrawer.open();
-  }
 
   closeDrawer() {
     this.addDrawer.close();
-  }
-
-  editData(role: any) {
-    this.selectedData = role;
-    this.drawerComponent = 'edit-data';
-    this.addDrawer.open();
   }
 
   // we need this function to distroy the child component when drawer is closed
@@ -89,14 +91,22 @@ export class ChamCongDiemDanhComponent {
   }
 
   handleEventClick(arg) {
-    if (arg.event._def.extendedProps.trangthai === TrangThaiLabel[TrangThai.ChoGiaiTrinh]) {
-      this.selectedData = arg.event;
-      this.addData();
+    // if (arg.event._def.extendedProps.trangthai === TrangThaiLabel[TrangThai.ChoGiaiTrinh]) {
+    //   this.selectedData = arg.event;
+    //   this.addData();
+    // }
+    let data = {
+      start: arg.event.start,
+      title: arg.event.title,
+      id: arg.event.id,
+      userId: this.requestUserID
     }
+    this.selectedData = data;
+    this.drawerComponent = 'new-data';
+    this.addDrawer.open();
   }
 
   initCalendar() {
-    console.log('initCalendar');
     this.calendarOptions = {
       initialView: 'dayGridMonth',
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -125,7 +135,7 @@ export class ChamCongDiemDanhComponent {
   onDatesSet(dateInfo) {
     const start = dateInfo.startStr;
     const end = dateInfo.endStr;
-    this._chamcongdiemdanhService.getDataByUserId(this.userInfo.userId, { start, end }).subscribe((data) => {
+    this._chamcongdiemdanhService.getDataByUserId(this.requestUserID, { start, end }).subscribe((data) => {
       const calendarApi = this.calendarComponent.getApi();
       this.calendarComponent.getApi().removeAllEvents();
       data.map((item) => {

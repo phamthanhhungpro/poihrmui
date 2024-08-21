@@ -32,36 +32,56 @@ export const defaultNavigation: FuseNavigationItem[] = [
             //     link: '/bang-luong-dinh-ky'
             // },
             {
-                id: 'cham-cong-diem-danh',
-                title: 'Chấm công, điểm danh',
+                id: 'cham-cong',
+                title: 'Chấm công',
                 type: 'collapsable',
+                icon: 'mat_outline:perm_contact_calendar',
                 children: [
                     {
-                        id: 'cham-cong-thu-cong',
-                        title: 'Bảng Chấm công/Điểm danh',
+                        id: 'quan-ly-cham-cong',
+                        title: 'Quản lý chấm công',
                         type: 'basic',
-                        link: '/cham-cong-diem-danh'
+                        link: '/bang-cham-cong'
                     },
                     {
-                        id: 'cham-cong-thu-cong',
-                        title: 'Điểm danh thủ công',
+                        id: 'cham-cong-ca-nhan',
+                        title: 'Chấm công cá nhân',
                         type: 'basic',
-                        link: '/diem-danh-thu-cong'
+                        link: '/cham-cong-diem-danh'
                     }
                 ]
             },
-            {
-                id: 'xac-nhan-cham-cong',
-                title: 'Xác nhận chấm công',
-                type: 'basic',
-                link: '/xac-nhan-cham-cong'
-            },
-            {
-                id: 'bang-cham-cong',
-                title: 'Tổng hợp chấm công',
-                type: 'basic',
-                link: '/bang-cham-cong'
-            }
+            // {
+            //     id: 'cham-cong-diem-danh',
+            //     title: 'Chấm công, điểm danh',
+            //     type: 'collapsable',
+            //     children: [
+            //         {
+            //             id: 'cham-cong-thu-cong',
+            //             title: 'Bảng Chấm công/Điểm danh',
+            //             type: 'basic',
+            //             link: '/cham-cong-diem-danh'
+            //         },
+            //         {
+            //             id: 'cham-cong-thu-cong',
+            //             title: 'Điểm danh thủ công',
+            //             type: 'basic',
+            //             link: '/diem-danh-thu-cong'
+            //         }
+            //     ]
+            // },
+            // {
+            //     id: 'xac-nhan-cham-cong',
+            //     title: 'Xác nhận chấm công',
+            //     type: 'basic',
+            //     link: '/xac-nhan-cham-cong'
+            // },
+            // {
+            //     id: 'bang-cham-cong',
+            //     title: 'Tổng hợp chấm công',
+            //     type: 'basic',
+            //     link: '/bang-cham-cong'
+            // }
         ]
     },
     {

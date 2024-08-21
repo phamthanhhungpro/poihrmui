@@ -7,7 +7,7 @@
 
         <div class="flex items-center">
             <!-- More menu -->
-            <button *ngIf="type!=='xac-nhan-giai-trinh'" mat-flat-button [color]="'primary'" (click)="save()">
+            <button *ngIf="showGuiXacNhanBtn()" mat-flat-button [color]="'primary'" (click)="save()">
                 Gửi xác nhận
             </button>
             <button *ngIf="type==='xac-nhan-giai-trinh'" mat-flat-button [color]="'warn'" (click)="confirm()">
@@ -17,12 +17,25 @@
                 Hủy
             </button>
         </div>
-
     </div>
     <mat-divider class="mb-4"></mat-divider>
     <div class="flex flex-col gt-xs:flex-row gt-xs:items-start p-6">
         <form [formGroup]="addDataForm" class="space-y-4">
             <div class="flex-auto min-w-64 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Nhân viên</mat-label>
+                            <input matInput formControlName="fullName" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Phòng/Ban/Bộ phận</mat-label>
+                            <input matInput formControlName="phongBan" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="flex">
                         <mat-form-field class="flex-auto">
@@ -134,7 +147,7 @@
                         (selectionChange)="setCongKhaiBao($event)" [multiple]="false" [disabled]="checkDisableForm()">
                     </app-searchable-select>
 
-                    <app-searchable-select *ngIf="listCongKhaiBaoOptions.length > 0 && checkDisableForm()" [selectedValue] = "congXacNhanId"
+                    <app-searchable-select *ngIf="listCongKhaiBaoOptions.length > 0 && showCongXacNhan()" [selectedValue] = "congXacNhanId"
                         [options]="listCongKhaiBaoOptions" [label]="'Công xác nhận'" placeholder="Chọn công xác nhận"
                         (selectionChange)="setCongXacNhan($event)" [multiple]="false">
                     </app-searchable-select>
@@ -149,7 +162,7 @@
                 <div class="flex">
                     <mat-form-field class="flex-auto">
                         <mat-label>Ghi chú</mat-label>
-                        <textarea matInput formControlName="ghiChu" [readonly]="checkDisableForm()"></textarea>
+                        <textarea matInput formControlName="ghiChu"></textarea>
                     </mat-form-field>
                 </div>
                 <div class="flex">

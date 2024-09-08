@@ -7,7 +7,7 @@
       <div *ngFor="let group of listItem">
         <h2 class="font-semibold mb-4">{{ group.groupName?.toUpperCase() }}</h2>
         <div *ngFor="let func of group.listFunction">
-          <div class="ml-4 flex items-center mb-2">
+          <div class="ml-4 flex items-center mb-2 mt-3">
             <input type="checkbox" id="func-{{ func.id }}" class="mr-2" [(ngModel)]="func.isSelected">
             <label for="func-{{ func.id }}" class="">{{ func.name }}</label>
           </div>

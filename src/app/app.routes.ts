@@ -26,6 +26,8 @@ import { ScopeComponent } from './modules/admin/app-permission/scope/scope.compo
 import { UserVaiTroComponent } from './modules/admin/app-permission/user-vai-tro/user-vai-tro.component';
 import { VaiTroHeThongComponent } from './modules/admin/app-permission/vai-tro-he-thong/vai-tro-he-thong.component';
 import { BangChamCongComponent } from './modules/admin/bang-cham-cong/bang-cham-cong.component';
+import { QuanLyChamCongComponent } from './modules/admin/quan-ly-cham-cong/quan-ly-cham-cong.component';
+import { NoPermissionComponent } from './layout/common/no-permission/no-permission.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -56,7 +58,9 @@ export const appRoutes: Route[] = [
             { path: 'forgot-password', loadChildren: () => import('app/modules/auth/forgot-password/forgot-password.routes') },
             { path: 'reset-password', loadChildren: () => import('app/modules/auth/reset-password/reset-password.routes') },
             { path: 'sign-in', loadChildren: () => import('app/modules/auth/sign-in/sign-in.routes') },
-            { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.routes') }
+            { path: 'sign-up', loadChildren: () => import('app/modules/auth/sign-up/sign-up.routes') },
+            {path: '403', component: NoPermissionComponent}
+
         ]
     },
 
@@ -118,6 +122,7 @@ export const appRoutes: Route[] = [
             { path: 'chi-nhanh', component: ChiNhanhComponent },
             { path: 'diem-danh-thu-cong', component: DiemDanhThuCongComponent },
             { path: 'bang-cham-cong', component: BangChamCongComponent },
+            { path: 'quan-ly-cham-cong', component: QuanLyChamCongComponent },
 
             // Phân quyền chức năng
             { path: 'endpoints', component: EndpointComponent },

@@ -41,7 +41,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                         id: 'quan-ly-cham-cong',
                         title: 'Quản lý chấm công',
                         type: 'basic',
-                        link: '/bang-cham-cong'
+                        link: '/quan-ly-cham-cong'
                     },
                     {
                         id: 'cham-cong-ca-nhan',

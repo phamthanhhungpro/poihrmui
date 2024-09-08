@@ -1,0 +1,91 @@
+<div class="flex flex-col flex-auto h-full overflow-hidden bg-card dark:bg-default">
+
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-18 -mb-px px-6 bg-gray-50 dark:bg-transparent">
+
+        <div class="ml-2 text-2xl font-semibold">Dữ liệu chấm công</div>
+
+        <div class="flex items-center">
+            <button  mat-flat-button [color]="'warn'" (click)="confirm()">
+                Xác nhận
+            </button>
+            <button class="px-6 ml-3" mat-button (click)="cancelAdd()">
+                Hủy
+            </button>
+        </div>
+    </div>
+    <mat-divider class="mb-4"></mat-divider>
+    <div class="flex flex-col gt-xs:flex-row gt-xs:items-start p-6">
+        <form [formGroup]="addDataForm" class="space-y-4">
+            <div class="flex-auto min-w-64 space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Nhân viên</mat-label>
+                            <input matInput formControlName="fullName" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Phòng/Ban/Bộ phận</mat-label>
+                            <input matInput formControlName="phongBan" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Ngày chấm công</mat-label>
+                            <input matInput formControlName="ngayChamCong" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex">
+                        <mat-form-field class="flex-auto">
+                            <mat-label>Phân loại chấm công</mat-label>
+                            <input matInput formControlName="loaiLoi" readonly>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="flex">
+                    <p class="text-2xl font-semibold">Xác nhận chấm công</p>
+                </div>
+
+                <div class="mt-2">
+                    <app-searchable-select *ngIf="listCongKhaiBaoOptions.length > 0" [selectedValue] = "congKhaiBaoId"
+                        [options]="listCongKhaiBaoOptions" [label]="'Công khai báo'" placeholder="Chọn công khai báo"
+                        (selectionChange)="setCongKhaiBao($event)" [multiple]="false" disabled>
+                    </app-searchable-select>
+
+                    <app-searchable-select *ngIf="listCongKhaiBaoOptions.length > 0" [selectedValue] = "congXacNhanId"
+                        [options]="listCongKhaiBaoOptions" [label]="'Công xác nhận'" placeholder="Chọn công xác nhận"
+                        (selectionChange)="setCongXacNhan($event)" [multiple]="false">
+                    </app-searchable-select>
+                </div>
+
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <mat-label>Lý do</mat-label>
+                        <textarea matInput formControlName="lyDo" readonly></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <mat-label>Ghi chú</mat-label>
+                        <textarea matInput formControlName="ghiChu"></textarea>
+                    </mat-form-field>
+                </div>
+                <div class="flex">
+                    <mat-form-field class="flex-auto">
+                        <mat-label>Người xác nhận</mat-label>
+                        <mat-select [formControlName]="'nguoiXacNhan'">
+                            <mat-option *ngFor="let truongPhong of listTruongPhong" [value]="truongPhong.id">
+                                {{ truongPhong.fullName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

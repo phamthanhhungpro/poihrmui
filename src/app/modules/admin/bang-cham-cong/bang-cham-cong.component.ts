@@ -26,14 +26,6 @@ import { Router } from '@angular/router';
 })
 export class BangChamCongComponent implements OnInit {
   employees = [
-    {
-      name: 'IT00007 - Lê Minh Hiếu',
-      days: ['X', 'X', 'X', /* Add the status for each day of the month */]
-    },
-    {
-      name: 'IT02805 - Nguyễn Tuấn Dương',
-      days: ['X', 'X', 'X', /* Add the status for each day of the month */]
-    },
     // Add more employee records as needed
   ];
 
@@ -50,6 +42,7 @@ export class BangChamCongComponent implements OnInit {
   ngOnInit(): void {
     this.generateDaysInMonth(this.selectedMonth);
     this.getBangChamCong();
+    this.date.setValue(this.selectedMonth);
   }
 
   generateDaysInMonth(date: Date): void {
@@ -69,6 +62,13 @@ export class BangChamCongComponent implements OnInit {
     datepicker.close();
   }
 
+  chosenYearHandler(normalizedYear: Date, datepicker: any) {
+    const ctrlValue = this.date.value!;
+    ctrlValue.setFullYear(normalizedYear.getFullYear());
+    this.date.setValue(ctrlValue);
+    datepicker._datepickerInput._openInMonthView = true; // This will open in the month view directly
+  }
+  
   getBangChamCong() {
     let data = {
       userId: localStorage.getItem('userId'),

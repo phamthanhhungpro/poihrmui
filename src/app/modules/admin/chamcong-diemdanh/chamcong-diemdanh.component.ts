@@ -52,16 +52,17 @@ export class ChamCongDiemDanhComponent {
    * Constructor
    */
   constructor(
-              private _chamcongdiemdanhService: ChamCongDiemDanhService,
-              private cdr: ChangeDetectorRef,
-              private route: ActivatedRoute,
-              private userApiService: UserApiService,
+    private _chamcongdiemdanhService: ChamCongDiemDanhService,
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private userApiService: UserApiService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
     // get id from url
-    if(this.route.snapshot.paramMap.get('id')) {
+    if (this.route.snapshot.paramMap.get('id')) {
       this.requestUserID = this.route.snapshot.paramMap.get('id');
     }
     this.userApiService.get(this.requestUserID).subscribe((data) => {
@@ -139,11 +140,13 @@ export class ChamCongDiemDanhComponent {
       const calendarApi = this.calendarComponent.getApi();
       this.calendarComponent.getApi().removeAllEvents();
       data.map((item) => {
-        const date = new Date(item.thoiGian).toISOString().split('T')[0];
+        const date = new Date(item.thoiGian);
+        date.setHours(date.getHours() + 7);
+        const utcDate = date.toISOString().split('T')[0];
         calendarApi.addEvent({
           id: item.id,
           title: item.hrmTrangThaiChamCong.tenTrangThai,
-          start: date,
+          start: utcDate,
           trangthai: TrangThaiLabel[item.trangThai],
           congkhaibao: item.hrmCongKhaiBao?.tenCongKhaiBao,
           color: item.hrmTrangThaiChamCong.mauSac,
@@ -208,5 +211,9 @@ export class ChamCongDiemDanhComponent {
     const end = formatDateToUTC7(view.activeEnd);
 
     this.onDatesSet({ startStr: start, endStr: end });
+  }
+
+  checkin() {
+    this.router.navigate(['/diem-danh-thu-cong']);
   }
 }

@@ -19,6 +19,8 @@ import { HosonhansuService } from 'app/services/hosonhansu.service';
 import { GiaiTrinhChamCongService } from 'app/services/giaitrinhchamcong.service';
 import { GiaiTrinhComponent } from '../giai-trinh/giai-trinh.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { DialogService } from 'app/common/dialog.service';
+import { XacnhanGiaiTrinhComponent } from '../xacnhan-giai-trinh/xacnhan-giai-trinh.component';
 
 @Component({
   selector: 'app-xacnhanchamcong',
@@ -61,7 +63,9 @@ export class XacNhanChamCongComponent {
     private _changeDetectorRef: ChangeDetectorRef,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private _giaitrinhService: GiaiTrinhChamCongService
+    private _giaitrinhService: GiaiTrinhChamCongService,
+    private dialogService: DialogService
+
   ) {
   }
 
@@ -105,6 +109,17 @@ export class XacNhanChamCongComponent {
 
         // Mark for check
         this._changeDetectorRef.markForCheck();
+      });
+  }
+
+  approveGiaiTrinh(item): void {
+    this.dialogService.openDialog(XacnhanGiaiTrinhComponent,
+        item,
+       { width: '600px', height: 'auto'},
+       this.getData.bind(this)
+      )
+      .subscribe(result => {
+
       });
   }
 
